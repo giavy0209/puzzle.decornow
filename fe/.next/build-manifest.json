@@ -7,6 +7,7 @@
   "lowPriorityFiles": [
     "static/bZXwdkWx9N_UaFBDf8UBP/_buildManifest.js",
     "static/bZXwdkWx9N_UaFBDf8UBP/_ssgManifest.js",
+    "static/bZXwdkWx9N_UaFBDf8UBP/_middlewareManifest.js"
   ],
   "pages": {
     "/": [
