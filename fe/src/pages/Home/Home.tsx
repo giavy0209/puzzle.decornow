@@ -69,7 +69,7 @@ const Home: NextPage = () => {
                     </section>
                     <section className="ss_3">
                         <div className="container">
-                            <div className="title">PLUZZLE'S MESSAGE</div>
+                            <div className="title">PLUZZLE{`'`}S MESSAGE</div>
                             <p>Chất liệu gỗ khiến cho sản phẩm trở nên độc đáo và sang trọng hơn. Đặc biệt, việc sử dụng công nghệ in UV với mực cao cấp tạo nên độ bền màu cao. Sản phẩm của Pluzzle được thiết kế và sản xuất tại Việt Nam. Sản phẩm gửi tới bạn chứa đựng tình yêu và tâm huyết của chúng mình. Hy vọng các bạn luôn hài lòng khi trải nghiệm sản phẩm của chúng mình.Pluzzle.vn</p>
                         </div>
                     </section>
