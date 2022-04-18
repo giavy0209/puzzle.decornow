@@ -1,0 +1,120 @@
+.upload {
+    .title {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    #canvas{
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        canvas{
+            width: 100%;
+        }
+    }
+    .controls {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        .control {
+            cursor: pointer;
+            padding: 10px;
+            border : 2px solid #000;
+        }
+    }
+    .frame {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        .title {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        [class*="frame_"] {
+            width: 25%;
+            text-align: center;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            &.selected {
+                border: 2px solid #000;
+            }
+        }
+        .frame_1{
+            &::before {
+                content : "";
+                display: block;
+                width: 42px;
+                height: 60px;
+                background-color: #000;
+                margin: 0 auto;
+            }
+        }
+        .frame_2{
+            &::before {
+                content : "";
+                display: block;
+                width: 60px;
+                height: 60px;
+                background-color: #000;
+                margin: 0 auto;
+            }
+        }
+        .frame_3{
+            &::before {
+                content : "";
+                display: block;
+                width: 60px;
+                height: 60px;
+                background-color: #000;
+                margin: 0 auto;
+                border-radius: 50%;
+            }
+        }
+        .frame_4 {
+            font-size: 56px;
+            span {
+                font-size: initial;
+            }
+        }
+    }
+    .slices {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 30px;
+        .title {
+            width: 100%;
+        }
+        .slice {
+            cursor: pointer;
+            width: 25%;
+            text-align: center;
+            img {
+                width: 30%;
+            }
+            &.selected {
+                border: 2px solid #000;
+            }
+        }
+    }
+    .upload {
+        margin-top: 30px;
+        border: 2px dashed #000;
+        padding: 20px;
+        label {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            cursor: pointer;
+            display: block;
+            text-transform: uppercase;
+            font-size:2rem;
+        }
+        input {
+            display: none;
+        }
+    }
+}
