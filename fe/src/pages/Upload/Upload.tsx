@@ -258,6 +258,12 @@ const Upload: FunctionComponent = () => {
         setImageRatio(null)
         initialRatio.current = null
     }
+
+    const handleChangeSlide = (o) => {
+        setSelectedSlice(o)
+        initialRatio.current = null
+        setImageRatio(null)
+    }
     return (
         <>
             <Layout>
@@ -297,7 +303,7 @@ const Upload: FunctionComponent = () => {
                             <div className="title">Đường cắt</div>
                             
                             {
-                                slice.map(o => <div onClick={()=>setSelectedSlice(o)} key={o.slice}  className={`slice ${SelectedSlice.slice === o.slice ? 'selected' : ''}`}>
+                                slice.map(o => <div onClick={()=>handleChangeSlide(o)} key={o.slice}  className={`slice ${SelectedSlice.slice === o.slice ? 'selected' : ''}`}>
                                     <img src={o.sliceIcon} alt="" />
                                 </div> )
                             }
