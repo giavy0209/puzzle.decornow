@@ -11,19 +11,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { asyncGetUser } from "store/initActions";
 import { MENU } from "./const";
-
-const Header: FC = () => {
+interface Header {
+    menu?: { [k: string]: any }[]
+}
+const Header: FC<Header> = ({ menu }) => {
     const dispatch = useDispatch()
-    const user = useSelector((state : any) => state.user)
+    const user = useSelector((state: any) => state.user)
     const popoverRef = useRef<any>()
     const [ShowModalLogin, setShowModalLogin] = useState(false)
     const [ShowModalSignup, setShowModalSignup] = useState(false)
     const [ShowPopover, setShowPopover] = useState(false)
     const handleLogin = async (data: any) => {
-        const res = await callAPI.post('/auth' , {...data})
-        if(res.msg === 'not existed' ||res.msg === 'not valid email' || res.status === 100) return toast('Email hoặc mật khẩu không chính xác')
-        
-        if(res.status === 1) toast("Đăng nhập thành công")
+        const res = await callAPI.post('/auth', { ...data })
+        if (res.msg === 'not existed' || res.msg === 'not valid email' || res.status === 100) return toast('Email hoặc mật khẩu không chính xác')
+
+        if (res.status === 1) toast("Đăng nhập thành công")
         setShowModalLogin(false)
         storage.setToken(res.token)
         dispatch(asyncGetUser())
@@ -34,25 +36,25 @@ const Header: FC = () => {
             return toast('Nhập lại mật khẩu không khớp')
         }
         const res = await callAPI.post('/user', data)
-        if(res.msg === 'not valid email') return toast('Email không hợp lệ')
-        if(res.msg === 'wrong length') return toast('Mật khẩu phải từ 6-18 kí tự')
-        if(res.msg === 'existed') return toast('Email đã được sử dụng')
-        if(res.status === 1) toast('Đăng ký thành công')
+        if (res.msg === 'not valid email') return toast('Email không hợp lệ')
+        if (res.msg === 'wrong length') return toast('Mật khẩu phải từ 6-18 kí tự')
+        if (res.msg === 'existed') return toast('Email đã được sử dụng')
+        if (res.status === 1) toast('Đăng ký thành công')
         setShowModalSignup(false)
         setShowModalLogin(true)
     }
 
     useEffect(() => {
         const toggle = event => {
-            if(!event.path.includes(popoverRef.current)) {
+            if (!event.path.includes(popoverRef.current)) {
                 setShowPopover(false)
             }
         }
-        window.addEventListener('click' , toggle)
+        window.addEventListener('click', toggle)
         return () => {
-            window.removeEventListener('click',toggle)
+            window.removeEventListener('click', toggle)
         }
-    },[])
+    }, [])
 
     return (
         <>
@@ -92,6 +94,22 @@ const Header: FC = () => {
                                 </Link>
                             </li>)
                         }
+                        {
+                            menu?.map(o => <li key={o._id}>
+                                <Link href={`/product/${o.slug}`}>
+                                    <a>{o.name}</a>
+                                </Link>
+                                <ul>
+                                    {
+                                        o.child?.map(child => <li key={child._id}>
+                                            <Link href={`/product/${child.slug}`}>
+                                                <a>{child.name}</a>
+                                            </Link>
+                                        </li>)
+                                    }
+                                </ul>
+                            </li>)
+                        }
                     </ul>
                 </div>
                 {!user && <div className="profile">
@@ -99,7 +117,7 @@ const Header: FC = () => {
                     <div onClick={() => setShowModalSignup(true)} className="button highlight">Đăng ký</div>
                 </div>}
                 {
-                    user && <div ref={popoverRef}  onClick={()=>setShowPopover(!ShowPopover)} className="profile loged">
+                    user && <div ref={popoverRef} onClick={() => setShowPopover(!ShowPopover)} className="profile loged">
                         <div className="name">{user.email}</div>
                         <div className="icon"> <FontAwesomeIcon icon={faUser} /></div>
                         <div className={`popover ${ShowPopover ? 'show' : ''} `}>
@@ -113,7 +131,7 @@ const Header: FC = () => {
                                 <li>
                                     <Link href='/profile'><a>Thông tin cá nhân</a></Link>
                                 </li>
-                                <li onClick={()=> window.location.reload()}>
+                                <li onClick={() => window.location.reload()}>
                                     Đăng xuất
                                 </li>
                             </ul>

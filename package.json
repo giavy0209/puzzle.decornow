@@ -1,0 +1,26 @@
+{
+  "name": "puzzle.decornow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "start:be": "npm start --prefix be",
+    "start:be:prod": "npm start --prefix be.prod",
+    "start:fe": "npm run dev --prefix fe",
+    "start:fe:prod": "npm start --prefix fe",
+    "start:admin": "npm start --prefix admin",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giavy0209/puzzle.decornow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giavy0209/puzzle.decornow/issues"
+  },
+  "homepage": "https://github.com/giavy0209/puzzle.decornow#readme"
+}

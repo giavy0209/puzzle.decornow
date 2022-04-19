@@ -11,13 +11,35 @@ import 'aos/dist/aos.css'
 
 import 'antd/dist/antd.css';
 import { useEffect } from 'react';
-function MyApp({ Component, pageProps }: AppProps) {
+import callAPI from 'call';
+import { Footer, Header } from 'components';
+import { ToastContainer } from 'react-toastify';
+
+
+let navigationPropsCache;
+
+function MyApp({ Component, pageProps,navigationProps }) {
   useEffect(() => {
     AOS.init()
+    navigationPropsCache = navigationProps
   }, [])
   return <Provider store={store}>
+    <ToastContainer />
+    <Header menu={navigationProps} />
     <Component {...pageProps} />
+    <Footer />
   </Provider>
 }
+
+MyApp.getInitialProps = async () => {
+  if(navigationPropsCache) {
+    return {navigationProps: navigationPropsCache}
+  }
+
+  const res = await callAPI.get('/categories_nested')
+  
+  return {navigationProps : res.data}
+}
+
 
 export default MyApp

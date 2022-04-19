@@ -8,20 +8,20 @@ import { FaArrowAltCircleDown, FaArrowAltCircleLeft, FaArrowAltCircleRight, FaAr
 
 const slice = [
     {
-        slice : '/images/slice_1.png',
-        sliceIcon : '/images/slice_icon_1.png',
+        slice: '/images/slice_1.png',
+        sliceIcon: '/images/slice_icon_1.png',
     },
     {
-        slice : '/images/slice_2.png',
-        sliceIcon : '/images/slice_icon_2.png',
+        slice: '/images/slice_2.png',
+        sliceIcon: '/images/slice_icon_2.png',
     },
     {
-        slice : '/images/slice_3.png',
-        sliceIcon : '/images/slice_icon_3.png',
+        slice: '/images/slice_3.png',
+        sliceIcon: '/images/slice_icon_3.png',
     },
     {
-        slice : '/images/slice_4.png',
-        sliceIcon : '/images/slice_icon_4.png',
+        slice: '/images/slice_4.png',
+        sliceIcon: '/images/slice_icon_4.png',
     },
 ]
 
@@ -92,7 +92,7 @@ const Upload: FunctionComponent = () => {
         }
     })
 
-    const drawSlice = () : Promise<any> => new Promise (r => {
+    const drawSlice = (): Promise<any> => new Promise(r => {
         const img = new Image()
         img.src = SelectedSlice.slice
         img.onload = () => {
@@ -121,13 +121,13 @@ const Upload: FunctionComponent = () => {
                                 ctx.current.fillRect(0, 0, Size.w, Size.h)
                             }
                             drawSlice()
-                            .then(cP => {
-                                if (ctx.current) {
-                                    const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                    ctx.current.fillStyle = pattern
-                                    ctx.current.fillRect(0, 0, Size.w, Size.h)
-                                }
-                            })
+                                .then(cP => {
+                                    if (ctx.current) {
+                                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
+                                        ctx.current.fillStyle = pattern
+                                        ctx.current.fillRect(0, 0, Size.w, Size.h)
+                                    }
+                                })
                         })
                 }
             }
@@ -150,13 +150,13 @@ const Upload: FunctionComponent = () => {
                                 ctx.current.fill()
                             }
                             drawSlice()
-                            .then(cP => {
-                                if (ctx.current) {
-                                    const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                    ctx.current.fillStyle = pattern
-                                    ctx.current.fill()
-                                }
-                            })
+                                .then(cP => {
+                                    if (ctx.current) {
+                                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
+                                        ctx.current.fillStyle = pattern
+                                        ctx.current.fill()
+                                    }
+                                })
                         })
                 }
             }
@@ -182,13 +182,13 @@ const Upload: FunctionComponent = () => {
                                 ctx.current.fill()
                             }
                             drawSlice()
-                            .then(cP => {
-                                if (ctx.current) {
-                                    const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                    ctx.current.fillStyle = pattern
-                                    ctx.current.fill()
-                                }
-                            })
+                                .then(cP => {
+                                    if (ctx.current) {
+                                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
+                                        ctx.current.fillStyle = pattern
+                                        ctx.current.fill()
+                                    }
+                                })
                         })
                 }
             }
@@ -253,7 +253,7 @@ const Upload: FunctionComponent = () => {
         event.persist()
         const file = event?.target?.files?.[0]
         if (!file) return
-        const url : string = (await readFile(file)) as string
+        const url: string = (await readFile(file)) as string
         setImageSrc(url)
         setImageRatio(null)
         initialRatio.current = null
@@ -266,51 +266,49 @@ const Upload: FunctionComponent = () => {
     }
     return (
         <>
-            <Layout>
-                <div className="upload">
-                    <div className="container">
-                        <div className="title">THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN</div>
-                        <div id="canvas">
-                            <canvas ref={canvas}></canvas>
+            <div className="upload">
+                <div className="container">
+                    <div className="title">THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN</div>
+                    <div id="canvas">
+                        <canvas ref={canvas}></canvas>
+                    </div>
+                    <div className="upload">
+                        <label htmlFor="upload">
+                            Tải hình lên
+                        </label>
+                        <input onChange={handleChangeImage} type="file" name="" id="upload" />
+                    </div>
+                    <div className="controls">
+                        <div onClick={upSize} className="control"><FaPlus /></div>
+                        <div onClick={downSize} className="control"><FaMinus /></div>
+                        <div onClick={() => handleY(-1)} className="control"><FaArrowAltCircleUp /></div>
+                        <div onClick={() => handleY(1)} className="control"><FaArrowAltCircleDown /></div>
+                        <div onClick={() => handleX(-1)} className="control"><FaArrowAltCircleLeft /></div>
+                        <div onClick={() => handleX(1)} className="control"><FaArrowAltCircleRight /></div>
+                    </div>
+                    <div className="frame">
+                        <div className="title">Khung hình</div>
+                        <div onClick={() => setSelectedFrame(0)} className={`frame_1 ${SelectedFrame === 0 ? 'selected' : ''}`}>
+                            <span>Hình chữ nhật 21x30</span>
                         </div>
-                        <div className="upload">
-                            <label htmlFor="upload">
-                                Tải hình lên
-                            </label>
-                            <input onChange={handleChangeImage} type="file" name="" id="upload" />
-                        </div>
-                        <div className="controls">
-                            <div onClick={upSize} className="control"><FaPlus /></div>
-                            <div onClick={downSize} className="control"><FaMinus /></div>
-                            <div onClick={() => handleY(-1)} className="control"><FaArrowAltCircleUp /></div>
-                            <div onClick={() => handleY(1)} className="control"><FaArrowAltCircleDown /></div>
-                            <div onClick={() => handleX(-1)} className="control"><FaArrowAltCircleLeft /></div>
-                            <div onClick={() => handleX(1)} className="control"><FaArrowAltCircleRight /></div>
-                        </div>
-                        <div className="frame">
-                            <div className="title">Khung hình</div>
-                            <div onClick={() => setSelectedFrame(0)} className={`frame_1 ${SelectedFrame === 0 ? 'selected' : ''}`}>
-                                <span>Hình chữ nhật 21x30</span>
-                            </div>
-                            <div onClick={() => setSelectedFrame(1)} className={`frame_2 ${SelectedFrame === 1 ? 'selected' : ''}`}>Hình vuông 30x30</div>
-                            <div onClick={() => setSelectedFrame(2)} className={`frame_3 ${SelectedFrame === 2 ? 'selected' : ''}`}>Hình tròn 30x30</div>
-                            <div onClick={() => setSelectedFrame(3)} className={`frame_4 ${SelectedFrame === 3 ? 'selected' : ''}`}>
-                                <AiFillHeart />
-                                <span>Trái tim 27x30</span>
-                            </div>
-                        </div>
-                        <div className="slices">
-                            <div className="title">Đường cắt</div>
-                            
-                            {
-                                slice.map(o => <div onClick={()=>handleChangeSlide(o)} key={o.slice}  className={`slice ${SelectedSlice.slice === o.slice ? 'selected' : ''}`}>
-                                    <img src={o.sliceIcon} alt="" />
-                                </div> )
-                            }
+                        <div onClick={() => setSelectedFrame(1)} className={`frame_2 ${SelectedFrame === 1 ? 'selected' : ''}`}>Hình vuông 30x30</div>
+                        <div onClick={() => setSelectedFrame(2)} className={`frame_3 ${SelectedFrame === 2 ? 'selected' : ''}`}>Hình tròn 30x30</div>
+                        <div onClick={() => setSelectedFrame(3)} className={`frame_4 ${SelectedFrame === 3 ? 'selected' : ''}`}>
+                            <AiFillHeart />
+                            <span>Trái tim 27x30</span>
                         </div>
                     </div>
+                    <div className="slices">
+                        <div className="title">Đường cắt</div>
+
+                        {
+                            slice.map(o => <div onClick={() => handleChangeSlide(o)} key={o.slice} className={`slice ${SelectedSlice.slice === o.slice ? 'selected' : ''}`}>
+                                <img src={o.sliceIcon} alt="" />
+                            </div>)
+                        }
+                    </div>
                 </div>
-            </Layout>
+            </div>
         </>
     )
 }

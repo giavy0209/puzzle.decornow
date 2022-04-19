@@ -6,13 +6,20 @@ import { DOMAIN } from './constant'
 import axiosRetry from 'axios-retry';
 
 const create = () => {
-    const jwt = storage.getToken()
-    return axios.create({
-        baseURL: DOMAIN,
-        headers: {
-            Authorization: `Bearer ${jwt}`,
-        }
-    })
+    try {
+        const jwt = storage.getToken()
+        return axios.create({
+            baseURL: DOMAIN,
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            }
+        })
+        
+    } catch (error) {
+        return axios.create({
+            baseURL: DOMAIN,
+        })
+    }
 }
 
 const callAPI = {
