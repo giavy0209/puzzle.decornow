@@ -1,0 +1,25 @@
+.pagination {
+    display: flex;
+    column-gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: flex-end;
+    .page {
+        padding: 15px;
+        border-radius: 5px;
+        border: $border;
+        position: relative;
+        cursor: pointer;
+        transition: .3s;
+        &:hover,&.active {
+            background-color: $primalry-color;
+            border: 1px solid $primalry-color;
+        }
+        span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+        }
+    }
+}
