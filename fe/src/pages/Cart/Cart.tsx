@@ -87,7 +87,7 @@ const Cart: FC = () => {
                         <div className="col-8">
                             <div className="cart-items">
                                 {
-                                    cart.map(o => <div className="item">
+                                    cart.map(o => <div key={o._id} className="item">
                                         <div className="flexbox">
                                             <div className="col-4">
                                                 <div className="img">
@@ -149,7 +149,7 @@ const Cart: FC = () => {
                                 filterOption={(input, option) => !!option?.children?.toString().toLowerCase().includes(input.toLowerCase())}
                             >
                                 {
-                                    Provinces.map(o => <Select.Option value={o.ProvinceID} >{o.ProvinceName}</Select.Option>)
+                                    Provinces.map(o => <Select.Option key={o.ProvinceID} value={o.ProvinceID} >{o.ProvinceName}</Select.Option>)
                                 }
                             </Select>
                         </Form.Item>
@@ -163,7 +163,7 @@ const Cart: FC = () => {
                                 onChange={onChangeDistrict}
                             >
                                 {
-                                    Districts.map(o => <Select.Option value={o.DistrictID} >{o.DistrictName}</Select.Option>)
+                                    Districts.map(o => <Select.Option key={o.DistrictID} value={o.DistrictID} >{o.DistrictName}</Select.Option>)
                                 }
                             </Select>
                         </Form.Item>}
@@ -176,7 +176,7 @@ const Cart: FC = () => {
                                 filterOption={(input, option) => !!option?.children?.toString().toLowerCase().includes(input.toLowerCase())}
                             >
                                 {
-                                    Wards.map(o => <Select.Option value={o.WardCode} >{o.WardName}</Select.Option>)
+                                    Wards.map(o => <Select.Option value={o.WardCode} key={o.WardCode} >{o.WardName}</Select.Option>)
                                 }
                             </Select>
                         </Form.Item>}

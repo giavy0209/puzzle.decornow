@@ -17,7 +17,7 @@ const Product: FC<Product> = ({ pageData, items }) => {
                 <div className="container">
                     <h1 className="title">{pageData.name}</h1>
                     <div className="flexbox flex6 mt-30">
-                        {items?.data.map(o => <div className="item">
+                        {items?.data.map(o => <div key={o._id} className="item">
                             <Link href={`/product-detail/${o.slug}`}>
                                 <a className="product">
                                     <div className="img">
