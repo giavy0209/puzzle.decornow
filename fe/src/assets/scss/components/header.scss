@@ -2,7 +2,8 @@ header {
     padding: 10px 0;
     display: flex;
     align-items: center;
-
+    border-bottom: $border;
+    box-shadow: 0 0 10px 0 rgba($color: #000000, $alpha: .2);
     .logo {
         width: 84px;
     }
@@ -129,5 +130,11 @@ header {
                 }
             }
         }
+    }
+    .cart {
+        cursor: pointer;
+        color: #000;
+        font-size: $large-size;
+        padding: 5px;
     }
 }

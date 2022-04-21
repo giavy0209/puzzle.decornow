@@ -56,17 +56,21 @@ var services_1 = require("services");
 var slug_1 = __importDefault(require("slug"));
 var category = {
     get: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, skip, limit, category, query, result;
+        var _a, skip, limit, category, query, findChildCategory, result;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _a = req.query, skip = _a.skip, limit = _a.limit, category = _a.category;
                     query = {};
-                    if ((0, mongoose_1.isValidObjectId)(category)) {
-                        query.category = category;
-                    }
-                    return [4 /*yield*/, (0, services_1.findAndPagin)({ model: models_1.Products, query: query, sort: { _id: -1 }, skip: Number(skip), limit: Number(limit), populate: 'category' })];
+                    if (!(0, mongoose_1.isValidObjectId)(category)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, models_1.Categories.find({ category: category })];
                 case 1:
+                    findChildCategory = (_b.sent()).map(function (o) { return o._id.toString(); });
+                    findChildCategory.push(category.toString());
+                    query.category = { $in: findChildCategory };
+                    _b.label = 2;
+                case 2: return [4 /*yield*/, (0, services_1.findAndPagin)({ model: models_1.Products, query: query, sort: { _id: -1 }, skip: Number(skip), limit: Number(limit), populate: 'category' })];
+                case 3:
                     result = _b.sent();
                     res.send(__assign({ status: 1 }, result));
                     return [2 /*return*/];
@@ -118,6 +122,7 @@ var category = {
             switch (_a.label) {
                 case 0:
                     slug = req.params.slug;
+                    console.log(slug);
                     return [4 /*yield*/, models_1.Products.findOne({ slug: slug })];
                 case 1:
                     data = _a.sent();

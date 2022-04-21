@@ -1,14 +1,17 @@
 import { isValidObjectId } from "mongoose"
-import { Products } from "models"
+import { Categories, Products } from "models"
 import { Request, Response } from 'express'
 import { findAndPagin } from "services"
 import slug from 'slug'
 const category = {
     get: async (req: Request, res: Response) => {
         const { skip, limit, category } = req.query
+        
         const query: { [k: string]: any } = {}
         if (isValidObjectId(category)) {
-            query.category = category
+            const findChildCategory = (await Categories.find({category})).map(o => o._id.toString())
+            findChildCategory.push(category.toString())
+            query.category = {$in : findChildCategory}
         }
         const result = await findAndPagin({ model: Products, query, sort: { _id: -1 }, skip: Number(skip), limit: Number(limit), populate: 'category' })
 
@@ -31,6 +34,8 @@ const category = {
     },
     detail : async (req: Request, res: Response) => {
         const {slug} = req.params
+        console.log(slug);
+        
         const data = await Products.findOne({slug})
         res.send({status : 1 , data})
     }

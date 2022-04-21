@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 import { BrowserRouter } from 'react-router-dom'
 import 'antd/dist/antd.min.css'
+import 'react-quill/dist/quill.snow.css';
 import './assets/scss/styles.scss'
 ReactDOM.render(
   <React.StrictMode>

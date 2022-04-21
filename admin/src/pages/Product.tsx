@@ -1,6 +1,7 @@
-import { FC, useCallback, useEffect, useState } from "react";
-import { Form, Input, Select, Button, Table, Modal, message } from 'antd'
+import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { Form, Input, Select, Button, Table, Modal, message, InputNumber } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import ReactQuill from 'react-quill';
 
 import callAPI from "callAPI";
 import { toast } from "react-toastify";
@@ -60,7 +61,8 @@ const Order: FC = () => {
     const [Pagin, setPagin] = useState({ total: 0, skip: 0, limit: 10, current: 1 })
     const [Data, setData] = useState<any[]>([])
     const [Categories, setCategories] = useState<any[]>([])
-
+    const quillRefCreate = useRef<any>()
+    const quillRefEdit = useRef<any>()
     const [Edit, setEdit] = useState<null | string>(null)
     const [form] = Form.useForm()
     const getdata = useCallback(async () => {
@@ -92,7 +94,7 @@ const Order: FC = () => {
             render: (_id, data) => <><Button
                 onClick={() => {
                     setEdit(_id)
-                    form.setFieldsValue({ ...data, category: data?.category?._id || null })
+                    form.setFieldsValue({ ...data, content : data?.content || '',category: data?.category?._id || null })
                     console.log(form.getFieldsValue());
 
                 }}
@@ -138,9 +140,28 @@ const Order: FC = () => {
         message.success('Đã sửa')
         getdata()
     }
+    function imageHandler() {
+        const quill = quillRefCreate.current.getEditor();
+        const range = quill.getSelection();
+        const value = prompt('What is the image URL');
+
+        if (value) {
+            quill.insertEmbed(range.index, 'image', value,);
+        }
+    }
+    function imageHandlerEdit() {
+        const quill = quillRefEdit.current.getEditor();
+        const range = quill.getSelection();
+        const value = prompt('What is the image URL');
+
+        if (value) {
+            quill.insertEmbed(range.index, 'image', value,);
+        }
+    }
     return (
         <>
             <div className="container">
+
                 <Form initialValues={{ images: [''] }} onFinish={handleSubmit}>
                     <Form.Item label="Tên" name='name'>
                         <Input />
@@ -155,10 +176,11 @@ const Order: FC = () => {
                         <Input />
                     </Form.Item>
 
+                    <Form.Item label="Giá" name='price'>
+                        <InputNumber style={{width : '100%'}}/>
+                    </Form.Item>
 
                     <List />
-
-
                     <Form.Item label="Danh mục" name="category">
                         <Select>
                             {
@@ -166,6 +188,23 @@ const Order: FC = () => {
                             }
 
                         </Select>
+                    </Form.Item>
+                    <Form.Item initialValue='' label="Nội dung" name="content">
+                        <ReactQuill ref={quillRefCreate} theme="snow" modules={{
+                            toolbar: {
+                                handlers: {
+                                    image: imageHandler
+                                },
+                                container: [
+                                    [{ 'header': [1, 2, false] }],
+                                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                                    ['link', 'image'],
+                                    ['clean']
+                                ]
+                            },
+
+                        }} />
                     </Form.Item>
                     <Button htmlType="submit" type="primary">Tạo</Button>
                 </Form>
@@ -186,10 +225,12 @@ const Order: FC = () => {
                     <Form.Item label="Thumbnail" name='thumbnail'>
                         <Input />
                     </Form.Item>
-                            
-                    <List />
+                    <Form.Item label="Giá" name='price'>
+                        <InputNumber style={{width : '100%'}}/>
+                    </Form.Item>
 
-                    <Form.Item label="Danh mục cha" name="category">
+                    <List />
+                    <Form.Item label="Danh mục" name="category">
                         <Select>
                             <Select.Option value={null} >Không chọn</Select.Option>
                             {
@@ -197,6 +238,23 @@ const Order: FC = () => {
                             }
 
                         </Select>
+                    </Form.Item>
+                    <Form.Item label="Nội dung" name="content">
+                        <ReactQuill ref={quillRefEdit} theme="snow" modules={{
+                            toolbar: {
+                                handlers: {
+                                    image: imageHandlerEdit
+                                },
+                                container: [
+                                    [{ 'header': [1, 2, false] }],
+                                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                                    ['link', 'image'],
+                                    ['clean']
+                                ]
+                            },
+
+                        }} />
                     </Form.Item>
                     <Button htmlType="submit" type="primary">Sửa</Button>
                 </Form>

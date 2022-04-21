@@ -10,14 +10,13 @@ interface Product {
 }
 const Product: FC<Product> = ({ pageData, items }) => {
     const router = useRouter()
-    console.log(router);
     
     return (
         <>
             <div className="products">
                 <div className="container">
-                    <div className="title">{pageData.name}</div>
-                    <div className="row">
+                    <h1 className="title">{pageData.name}</h1>
+                    <div className="flexbox flex6 mt-30">
                         {items?.data.map(o => <div className="item">
                             <Link href={`/product-detail/${o.slug}`}>
                                 <a className="product">
@@ -30,8 +29,15 @@ const Product: FC<Product> = ({ pageData, items }) => {
                                 </a>
                             </Link>
                         </div>)}
+
                     </div>
-                    <Pagination onChange={(page) => router.push(`/product/${router.query.product}?page=${page}`)} current={items.current} pageSize={items.pageSize} total={items.total} />
+                    <div className="row">
+                    </div>
+                    <Pagination
+                    onChange={(page) => router.push(`/product/${router.query.product}?page=${page}`)} 
+                    current={items.current} 
+                    pageSize={items.pageSize} 
+                    total={items.total} />
                 </div>
             </div>
         </>

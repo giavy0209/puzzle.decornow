@@ -4,38 +4,28 @@
         padding-bottom: 20px;
         border-bottom: 1px solid #000;
     }
-    .row {
-        margin-top: 30px;
-        display: flex;
-        flex-wrap: wrap;
-        column-gap: 30px;
-        row-gap: 30px;
-        .item {
-            width: calc(1/4*100% - (1 - 1/4)*30px);
-            .product {
-                padding: 10px;
-                border-radius: 5px;
-                border: $border;
-                &:hover {
-                    img {
-                        transform: scale(1.2);
-                    }
-                }
-                .img {
-                    width: 100%;
-                    aspect-ratio: 1;
-                    position: relative;
-                    overflow: hidden;
-                    img {
-                        transition: .3s;
-                    }
-                }
-                .name {
-                    font-size: $large-size;
-                    font-weight: 500;
-                    color: #000;
-                }
+    .product {
+        padding: 10px;
+        border-radius: 5px;
+        border: $border;
+        &:hover {
+            img {
+                transform: scale(1.2);
             }
+        }
+        .img {
+            width: 100%;
+            aspect-ratio: 1;
+            position: relative;
+            overflow: hidden;
+            img {
+                transition: .3s;
+            }
+        }
+        .name {
+            font-size: $large-size;
+            font-weight: 500;
+            color: #000;
         }
     }
 }

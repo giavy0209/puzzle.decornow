@@ -7,5 +7,6 @@ export default interface Product {
     category : Types.ObjectId,
     slug : string,
     thumbnail : string,
-    images : string[]
+    images : string[],
+    price : number
 }

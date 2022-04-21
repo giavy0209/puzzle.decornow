@@ -1,5 +1,6 @@
 
 const initState = {
+    cart : []
 }
 const reducers = function (state = initState, action: { type: String , payload : any }) {
     return {

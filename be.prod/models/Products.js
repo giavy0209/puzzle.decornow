@@ -10,6 +10,7 @@ var ProductSchema = new mongoose_1.Schema({
     slug: { type: String },
     thumbnail: { type: String },
     images: [{ type: String }],
+    price: { type: Number, default: 0 },
 }, {
     timestamps: true
 });

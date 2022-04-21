@@ -46,6 +46,7 @@ img {
     width: fit-content;
     cursor: pointer;
     transition: .3s;
+
     &:hover {
         background-color: #000;
         color: #fff;
@@ -142,11 +143,65 @@ button {
     margin-right: auto;
     margin-left: auto;
     max-width: 1200px;
-    padding:  0 15px ;
+    padding: 0 15px;
 }
 
 .title {
     font-size: $large-size;
     font-weight: 600;
     text-align: center;
+}
+
+@for $i from 1 through 100 {
+    .mt-#{$i} {
+        margin-top: #{$i}px !important;
+    }
+
+    .mb-#{$i} {
+        margin-bottom: #{$i}px;
+    }
+
+    .ml-#{$i} {
+        margin-left: #{$i}px;
+    }
+
+    .mr-#{$i} {
+        margin-right: #{$i}px;
+    }
+
+    .pt-#{$i} {
+        padding-top: #{$i}px;
+    }
+
+    .pb-#{$i} {
+        padding-bottom: #{$i}px;
+    }
+
+    .pl-#{$i} {
+        padding-left: #{$i}px;
+    }
+
+    .pr-#{$i} {
+        padding-right: #{$i}px;
+    }
+}
+
+.flexbox {
+    --gap-col: 30px;
+    --gap-row: 30px;
+
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: var(--gap-col);
+    row-gap: var(--gap-row);
+    @for $i from 1 through 12 {
+        &.flex#{$i} {
+            .item {
+                width: calc(1 / #{$i} *100% - (1 - 1 / #{$i}) * 30px);
+            }
+        }
+        .col-#{$i} {
+            width: calc(1 / 12 * #{$i} * 100% - 15px);
+        }
+    }
 }

@@ -1,5 +1,5 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaCartArrowDown, FaCartPlus, FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import callAPI from "call";
@@ -138,6 +138,11 @@ const Header: FC<Header> = ({ menu }) => {
                         </div>
                     </div>
                 }
+                <Link href="/cart">
+                    <a className="cart">
+                        <FaCartPlus />
+                    </a>
+                </Link>
             </header>
         </>
     )

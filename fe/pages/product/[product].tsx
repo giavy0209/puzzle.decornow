@@ -8,6 +8,8 @@ const App: NextPage<Product> = ({pageData, items}) => {
     <>
     <Head>
       <title>{pageData.nameSeo}</title>
+      <meta name="description" content={pageData.description} />
+      <meta name="og:image" content={pageData.thumbnail} />
     </Head>
     <Product pageData={pageData} items={items}/>
     </>
@@ -19,9 +21,9 @@ export default App
 export async function getServerSideProps({params,query}) {
   const res = await callAPI.get(`/categories/${params.product}`)
   const page = Number(query.page) || 1
-  const limit = 2
+  const limit = 12
   const skip = (page-1) * limit
-  const items = await callAPI.get(`/product?category=${params.product}&skip=${skip}&limit=${limit}`)
+  const items = await callAPI.get(`/product?category=${res.data._id}&skip=${skip}&limit=${limit}`)
 
   if(res.data) {
     return {props : {

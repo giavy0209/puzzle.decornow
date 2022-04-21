@@ -5,6 +5,10 @@ import readFile from "helpers/readFile";
 import { ChangeEvent, CSSProperties, FunctionComponent, useEffect, useRef, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaArrowAltCircleDown, FaArrowAltCircleLeft, FaArrowAltCircleRight, FaArrowAltCircleUp, FaMinus, FaPlus } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { actionChangeCart } from "store/actions";
+import { v4 as uuidv4 } from 'uuid';
 
 const slice = [
     {
@@ -26,6 +30,8 @@ const slice = [
 ]
 
 const Upload: FunctionComponent = () => {
+    const dispatch = useDispatch()
+    const cart = useSelector((state : any) => state.cart)
     const [SelectedSlice, setSelectedSlice] = useState(slice[0])
     const [SelectedFrame, setSelectedFrame] = useState(1)
     const [Size, setSize] = useState({ w: 3000, h: 3000 })
@@ -264,49 +270,116 @@ const Upload: FunctionComponent = () => {
         initialRatio.current = null
         setImageRatio(null)
     }
+
+    useEffect(() => {
+        const handleKey = e => {
+            e.preventDefault()
+            const keyCode = e.keyCode
+
+            if (keyCode === 189) {
+                downSize()
+            }
+
+            if (keyCode === 187) {
+                upSize()
+            }
+            if (keyCode === 39) {
+                handleX(1)
+            }
+            if (keyCode === 37) {
+                handleX(-1)
+            }
+            if (keyCode === 40) {
+                handleY(1)
+            }
+            if (keyCode === 38) {
+                handleY(-1)
+            }
+        }
+        document.addEventListener('keydown', handleKey)
+        return () => {
+            document.removeEventListener('keydown', handleKey)
+        }
+    }, [downSize, upSize, handleX, handleY])
+    const handleAddToCart = () => {
+        if (!ImageSrc) return toast('Bạn chưa chọn hình ảnh')
+        const url = canvas.current?.toDataURL()
+        if (url) {
+            const splitDataURI = url.split(',')
+            const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
+            const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
+
+            const ia = new Uint8Array(byteString.length)
+            for (let i = 0; i < byteString.length; i++)
+                ia[i] = byteString.charCodeAt(i)
+
+            const file = new Blob([ia], { type: mimeString })
+            const blobURL = URL.createObjectURL(file)
+            
+            cart.push({
+                _id : uuidv4(),
+                thumbnail : blobURL,
+                file,
+                price : 500000,
+                quantity : 1
+            })
+            dispatch(actionChangeCart([...cart]))
+            toast('Đã thêm vào giỏ hàng')
+            setImageSrc(null)
+        }
+    }
     return (
         <>
             <div className="upload">
                 <div className="container">
                     <div className="title">THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN</div>
-                    <div id="canvas">
-                        <canvas ref={canvas}></canvas>
-                    </div>
-                    <div className="upload">
-                        <label htmlFor="upload">
-                            Tải hình lên
-                        </label>
-                        <input onChange={handleChangeImage} type="file" name="" id="upload" />
-                    </div>
-                    <div className="controls">
-                        <div onClick={upSize} className="control"><FaPlus /></div>
-                        <div onClick={downSize} className="control"><FaMinus /></div>
-                        <div onClick={() => handleY(-1)} className="control"><FaArrowAltCircleUp /></div>
-                        <div onClick={() => handleY(1)} className="control"><FaArrowAltCircleDown /></div>
-                        <div onClick={() => handleX(-1)} className="control"><FaArrowAltCircleLeft /></div>
-                        <div onClick={() => handleX(1)} className="control"><FaArrowAltCircleRight /></div>
-                    </div>
-                    <div className="frame">
-                        <div className="title">Khung hình</div>
-                        <div onClick={() => setSelectedFrame(0)} className={`frame_1 ${SelectedFrame === 0 ? 'selected' : ''}`}>
-                            <span>Hình chữ nhật 21x30</span>
+                    <div className="flexbox mt-30">
+                        <div className="col-6">
+                            <div id="canvas">
+                                <canvas ref={canvas}></canvas>
+                            </div>
                         </div>
-                        <div onClick={() => setSelectedFrame(1)} className={`frame_2 ${SelectedFrame === 1 ? 'selected' : ''}`}>Hình vuông 30x30</div>
-                        <div onClick={() => setSelectedFrame(2)} className={`frame_3 ${SelectedFrame === 2 ? 'selected' : ''}`}>Hình tròn 30x30</div>
-                        <div onClick={() => setSelectedFrame(3)} className={`frame_4 ${SelectedFrame === 3 ? 'selected' : ''}`}>
-                            <AiFillHeart />
-                            <span>Trái tim 27x30</span>
-                        </div>
-                    </div>
-                    <div className="slices">
-                        <div className="title">Đường cắt</div>
+                        <div className="col-6">
+                            <div className="upload">
+                                <label htmlFor="upload">
+                                    Tải hình lên
+                                </label>
+                                <input onChange={handleChangeImage} type="file" name="" id="upload" />
+                            </div>
+                            <div className="controls">
+                                <div onClick={upSize} className="control"><FaPlus /></div>
+                                <div onClick={downSize} className="control"><FaMinus /></div>
+                                <div onClick={() => handleY(-1)} className="control"><FaArrowAltCircleUp /></div>
+                                <div onClick={() => handleY(1)} className="control"><FaArrowAltCircleDown /></div>
+                                <div onClick={() => handleX(-1)} className="control"><FaArrowAltCircleLeft /></div>
+                                <div onClick={() => handleX(1)} className="control"><FaArrowAltCircleRight /></div>
+                                <p>Hoặc dùng phím +,- và mũi tên trên bàn phím để điều chỉnh</p>
+                            </div>
 
-                        {
-                            slice.map(o => <div onClick={() => handleChangeSlide(o)} key={o.slice} className={`slice ${SelectedSlice.slice === o.slice ? 'selected' : ''}`}>
-                                <img src={o.sliceIcon} alt="" />
-                            </div>)
-                        }
+                            <div className="frame">
+                                <div className="title">Khung hình</div>
+                                <div onClick={() => setSelectedFrame(0)} className={`frame_1 ${SelectedFrame === 0 ? 'selected' : ''}`}>
+                                    <span>Hình chữ nhật 21x30</span>
+                                </div>
+                                <div onClick={() => setSelectedFrame(1)} className={`frame_2 ${SelectedFrame === 1 ? 'selected' : ''}`}>Hình vuông 30x30</div>
+                                <div onClick={() => setSelectedFrame(2)} className={`frame_3 ${SelectedFrame === 2 ? 'selected' : ''}`}>Hình tròn 30x30</div>
+                                <div onClick={() => setSelectedFrame(3)} className={`frame_4 ${SelectedFrame === 3 ? 'selected' : ''}`}>
+                                    <AiFillHeart />
+                                    <span>Trái tim 27x30</span>
+                                </div>
+                            </div>
+                            <div className="slices">
+                                <div className="title">Đường cắt</div>
+
+                                {
+                                    slice.map(o => <div onClick={() => handleChangeSlide(o)} key={o.slice} className={`slice ${SelectedSlice.slice === o.slice ? 'selected' : ''}`}>
+                                        <img src={o.sliceIcon} alt="" />
+                                    </div>)
+                                }
+                            </div>
+                        </div>
                     </div>
+                    <div onClick={handleAddToCart} className="button mt-20">Thêm vào giỏ hàng</div>
                 </div>
             </div>
         </>

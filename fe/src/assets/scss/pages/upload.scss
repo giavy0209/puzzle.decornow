@@ -1,7 +1,10 @@
 .upload {
+    margin-top: 30px;
     .title {
         text-align: center;
         font-size: 1.5rem;
+        padding-bottom: 20px;
+        border-bottom: $border;
     }
     #canvas{
         width: 100%;
@@ -15,10 +18,15 @@
         margin-top: 30px;
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         .control {
             cursor: pointer;
             padding: 10px;
             border : 2px solid #000;
+        }
+        p {
+            width: 100%;
+            text-align: center;
         }
     }
     .frame {
@@ -91,6 +99,7 @@
         .slice {
             cursor: pointer;
             width: 25%;
+            margin-top: 30px;
             text-align: center;
             img {
                 width: 30%;
@@ -101,7 +110,6 @@
         }
     }
     .upload {
-        margin-top: 30px;
         border: 2px dashed #000;
         padding: 20px;
         label {
@@ -116,5 +124,8 @@
         input {
             display: none;
         }
+    }
+    .button {
+        width: 100%;
     }
 }
