@@ -66,11 +66,11 @@ const Order: FC = () => {
     const [Edit, setEdit] = useState<null | string>(null)
     const [form] = Form.useForm()
     const getdata = useCallback(async () => {
-        const res = await callAPI.get(`/product?skip=${Pagin.skip}&limit=${Pagin.limit}&category=1`)
+        const res = await callAPI.get(`/product?skip=${Pagin.skip}&limit=${Pagin.limit}&category=1&type=1`)
         setData([...res.data])
         setPagin(prev => ({ ...prev, total: res.total }))
 
-        const cat = await callAPI.get('/categories?limit=9999&category=1')
+        const cat = await callAPI.get('/categories?limit=9999&category=1&type=1')
         setCategories([...cat.data])
     }, [Pagin.skip, Pagin.limit])
 
@@ -79,9 +79,10 @@ const Order: FC = () => {
     }, [getdata])
 
     const handleSubmit = async value => {
-        console.log(value);
-
-        await callAPI.post(`/product`, value)
+        await callAPI.post(`/product`, {
+            ...value,
+            type : 1
+        })
         toast('Tạo thành công')
         getdata()
     }

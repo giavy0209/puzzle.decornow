@@ -5,9 +5,10 @@ import { findAndPagin } from "services"
 import slug from 'slug'
 const category = {
     get: async (req: Request, res: Response) => {
-        const { skip, limit, category } = req.query
+        const { skip, limit, category,type } = req.query
         
         const query: { [k: string]: any } = {}
+        if(Number(type)) query.type = Number(type)
         if (isValidObjectId(category)) {
             const findChildCategory = (await Categories.find({category})).map(o => o._id.toString())
             findChildCategory.push(category.toString())

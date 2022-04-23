@@ -96,13 +96,13 @@ const Header: FC<Header> = ({ menu }) => {
                         }
                         {
                             menu?.map(o => <li key={o._id}>
-                                <Link href={`/product/${o.slug}`}>
+                                <Link href={`/${o.type === 1 ? 'product' : 'news'}/${o.slug}`}>
                                     <a>{o.name}</a>
                                 </Link>
                                 <ul>
                                     {
                                         o.child?.map(child => <li key={child._id}>
-                                            <Link href={`/product/${child.slug}`}>
+                                            <Link href={`/${child.type === 1 ? 'product' : 'news'}/${child.slug}`}>
                                                 <a>{child.name}</a>
                                             </Link>
                                         </li>)

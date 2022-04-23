@@ -11,6 +11,7 @@ const ProductSchema = new Schema<Product>({
     thumbnail : {type : String},
     images : [{type : String}],
     price : {type : Number, default : 0},
+    type : {type : Number , default : 1},
 }, {
     timestamps: true
 })

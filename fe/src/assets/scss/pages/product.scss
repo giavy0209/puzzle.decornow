@@ -1,4 +1,5 @@
 .products {
+    margin-top: 30px;
     .title {
         text-transform: uppercase;
         padding-bottom: 20px;
@@ -25,6 +26,15 @@
         .name {
             font-size: $large-size;
             font-weight: 500;
+            color: #000;
+        }
+        .price {
+            color: #eb0303;
+            font-weight: 600;
+            text-align: center;
+        }
+        .create-date {
+            font-size: $small-size;
             color: #000;
         }
     }

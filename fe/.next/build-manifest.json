@@ -25,25 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/cart": [
+    "/news-detail/[news-detail]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/cart.js"
+      "static/chunks/pages/news-detail/[news-detail].js"
     ],
-    "/product-detail/[product-detail]": [
+    "/news/[news]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/product-detail/[product-detail].js"
-    ],
-    "/product/[product]": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/product/[product].js"
-    ],
-    "/upload": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/upload.js"
+      "static/chunks/pages/news/[news].js"
     ]
   },
   "ampFirstPages": []

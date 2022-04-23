@@ -71,7 +71,7 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
                         <div className="col-8">
                             <div className="detail">
                                 <h1 className="name">{pageData.name}</h1>
-                                <div className="price">349.000d</div>
+                                <div className="price">{pageData.price.toLocaleString()}đ</div>
                                 <div className="quantity">
                                     <div className="flexbox">
                                         <div className="col-6">

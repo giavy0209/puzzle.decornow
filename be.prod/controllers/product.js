@@ -56,12 +56,14 @@ var services_1 = require("services");
 var slug_1 = __importDefault(require("slug"));
 var category = {
     get: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, skip, limit, category, query, findChildCategory, result;
+        var _a, skip, limit, category, type, query, findChildCategory, result;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = req.query, skip = _a.skip, limit = _a.limit, category = _a.category;
+                    _a = req.query, skip = _a.skip, limit = _a.limit, category = _a.category, type = _a.type;
                     query = {};
+                    if (Number(type))
+                        query.type = Number(type);
                     if (!(0, mongoose_1.isValidObjectId)(category)) return [3 /*break*/, 2];
                     return [4 /*yield*/, models_1.Categories.find({ category: category })];
                 case 1:

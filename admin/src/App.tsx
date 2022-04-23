@@ -4,7 +4,7 @@ import { Menu } from "antd";
 import { useDispatch } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from 'react';
-import { Category, Login, Order, Product, Upload } from 'pages';
+import { Category, Login, News, Order, Product, Upload } from 'pages';
 import storage from 'helpers/storage';
 
 function App() {
@@ -40,6 +40,7 @@ function App() {
               <Menu.Item key='/admin/upload'>Hình ảnh</Menu.Item>
               <Menu.Item key='/admin/category'>Danh mục</Menu.Item>
               <Menu.Item key='/admin/product'>Sản phẩm</Menu.Item>
+              <Menu.Item key='/admin/news'>Bài viết</Menu.Item>
               <Menu.Item key='/admin/order'>Đơn hàng</Menu.Item>
             </Menu>
           </>}
@@ -48,6 +49,7 @@ function App() {
           <Route path='/admin/login' element={<Login />} />
           <Route path='/admin/product' element={<Product />} />
           <Route path='/admin/category' element={<Category />} />
+          <Route path='/admin/news' element={<News />} />
           <Route path='/admin/order' element={<Order />} />
         </Routes>
       </div>
