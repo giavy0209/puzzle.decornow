@@ -78,7 +78,7 @@ var user = {
         });
     }); },
     post: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var file, error_2;
+        var file, data, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -86,8 +86,8 @@ var user = {
                     file = req.file;
                     return [4 /*yield*/, models_1.Uploads.create({ path: "/upload/".concat(file.filename) })];
                 case 1:
-                    _a.sent();
-                    res.send({ status: 1 });
+                    data = _a.sent();
+                    res.send({ status: 1, data: data });
                     return [3 /*break*/, 3];
                 case 2:
                     error_2 = _a.sent();

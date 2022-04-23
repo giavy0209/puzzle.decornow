@@ -9,7 +9,7 @@ const create = () => {
     try {
         const jwt = storage.getToken()
         return axios.create({
-            baseURL: DOMAIN,
+            baseURL: `${DOMAIN}/api`,
             headers: {
                 Authorization: `Bearer ${jwt}`,
             }
@@ -17,7 +17,7 @@ const create = () => {
         
     } catch (error) {
         return axios.create({
-            baseURL: DOMAIN,
+            baseURL: `${DOMAIN}/api`,
         })
     }
 }

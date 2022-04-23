@@ -20,8 +20,8 @@ const user = {
     post: async (req: Request, res: Response) => {
         try {
             const file = req.file
-            await Uploads.create({path : `/upload/${file.filename}`})
-            res.send({status : 1})
+            const data = await Uploads.create({path : `/upload/${file.filename}`})
+            res.send({status : 1,data})
         } catch (error) {
             res.send(error)
         }

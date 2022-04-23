@@ -12,13 +12,13 @@ var diskStorage = multer_1.default.diskStorage({
         if (!isHavePublic)
             fs_1.default.mkdirSync('public');
         var isHaveUpload = fs_1.default.existsSync('public/upload');
-        if (!isHavePublic)
+        if (!isHaveUpload)
             fs_1.default.mkdirSync('public/upload');
         callback(null, 'public/upload');
     },
     filename: function (req, file, callback) {
         var ext = path_1.default.extname(file.originalname);
-        callback(null, Date.now() + ext);
+        callback(null, Date.now() + (ext || '.jpg'));
     }
 });
 var upload = (0, multer_1.default)({ storage: diskStorage }).single('file');

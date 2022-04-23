@@ -1,9 +1,11 @@
 import { Button, Form, Input, Select } from "antd";
+import callAPI from "call";
+import { DOMAIN } from "constant";
 import Link from "next/link";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDistricts, fetchProvinces, fetchWards } from "services/GHNService";
+import { calculateFee, fetchDistricts, fetchProvinces, fetchServices, fetchWards } from "services/GHNService";
 import { actionChangeCart } from "store/actions";
 
 const Cart: FC = () => {
@@ -13,9 +15,11 @@ const Cart: FC = () => {
     const [Districts, setDistricts] = useState<any[]>([])
     const [DistrictsSelected, setDistrictsSelected] = useState<any>(null)
     const [Wards, setWards] = useState<any[]>([])
+    const [WardSelected, setWardSelected] = useState<any>(null)
 
     useEffect(() => {
         fetchProvinces().then(res => setProvinces([...res.data]))
+
     }, [])
 
     useEffect(() => {
@@ -60,23 +64,69 @@ const Cart: FC = () => {
     }
     const onChangeProvince = value => {
         setProvinceSelected(value)
+        setDistrictsSelected(null)
+
+
         formRef.current.setFieldsValue({
             ...formRef.current.getFieldsValue(),
-            district : null
+            district: null
         })
-    }   
+    }
 
     const onChangeDistrict = value => {
         setDistrictsSelected(value)
+        setWardSelected(null)
+
+        fetchServices(value)
+            .then(res => {
+                console.log(res);
+
+            })
         formRef.current.setFieldsValue({
             ...formRef.current.getFieldsValue(),
-            ward : null
+            ward: null
         })
-    }   
+    }
 
-    const handleFormDone = value => {
-        console.log(value);
-        
+    useEffect(() => {
+        if (ProvinceSelected && DistrictsSelected && WardSelected) {
+            calculateFee(DistrictsSelected, WardSelected)
+                .then(res => {
+                    console.log(res);
+                })
+        }
+    }, [ProvinceSelected, DistrictsSelected, WardSelected])
+
+
+
+    const handleFormDone = async value => {
+        const items: any[] = []
+
+        for (let index = 0; index < cart.length; index++) {
+            const item = cart[index];
+            if (item.file) {
+                const form = new FormData()
+                form.append('file', item.file)
+                const res = await callAPI.post('upload',form)
+                const thumbnail = `${DOMAIN}${res.data.path}`
+                
+                item.thumbnail = thumbnail
+                console.log(item.thumbnail);
+            }
+            items.push({
+                product: item._id || null,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                thumbnail: item.thumbnail
+            })
+
+        }
+
+        const res = await callAPI.post('/order', {
+            ...value,
+            items
+        })
     }
     return (
         <>
@@ -154,7 +204,7 @@ const Cart: FC = () => {
                             </Select>
                         </Form.Item>
 
-                        {ProvinceSelected && <Form.Item dependencies={['province']} rules={[ { required: true, message: 'Vui lòng chọn quận/huyện' }, ]} name={"district"}>
+                        {ProvinceSelected && <Form.Item dependencies={['province']} rules={[{ required: true, message: 'Vui lòng chọn quận/huyện' },]} name={"district"}>
                             <Select
                                 showSearch
                                 optionFilterProp="DistrictName"
@@ -174,6 +224,7 @@ const Cart: FC = () => {
                                 optionFilterProp="DistrictName"
                                 placeholder="Phường/Xã"
                                 filterOption={(input, option) => !!option?.children?.toString().toLowerCase().includes(input.toLowerCase())}
+                                onChange={value => setWardSelected(value)}
                             >
                                 {
                                     Wards.map(o => <Select.Option value={o.WardCode} key={o.WardCode} >{o.WardName}</Select.Option>)

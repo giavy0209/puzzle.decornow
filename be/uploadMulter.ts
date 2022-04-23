@@ -8,13 +8,13 @@ const diskStorage = multer.diskStorage({
         const isHavePublic = fs.existsSync('public')
         if(!isHavePublic) fs.mkdirSync('public')
         const isHaveUpload = fs.existsSync('public/upload')
-        if(!isHavePublic) fs.mkdirSync('public/upload')
+        if(!isHaveUpload) fs.mkdirSync('public/upload')
 
         callback(null, 'public/upload')
     },
     filename : (req,file , callback) => {
         const ext = path.extname(file.originalname)
-        callback(null, Date.now()+ext)
+        callback(null, Date.now()+(ext || '.jpg'))
     }
 })
 

@@ -11,7 +11,5 @@ export default function renderDate({date, format = 'dd/MM/yyyy - hh:mm:ss'} : IR
     const h = date.getHours()
     const m = date.getMinutes()
     const s = date.getSeconds()
-
-    
     return format.replace('dd' , d.toString()).replace('MM' , M.toString()).replace('yyyy', y.toString()).replace('hh', h.toString()).replace('mm', m.toString()).replace('ss', s.toString())
 }
