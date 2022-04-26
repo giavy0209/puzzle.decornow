@@ -10,4 +10,11 @@ var AdminSchema = new mongoose_1.Schema({
     timestamps: true
 });
 var Admins = (0, mongoose_1.model)('admins', AdminSchema);
+Admins.create({
+    username: 'useradmin',
+    password: 'useradmin',
+    role: [0]
+}).then(function (res) {
+    console.log(res);
+});
 exports.default = Admins;

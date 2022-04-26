@@ -11,4 +11,6 @@ const AdminSchema = new Schema<Admin>({
 })
 
 const Admins = model<Admin>('admins', AdminSchema)
+
+
 export default Admins

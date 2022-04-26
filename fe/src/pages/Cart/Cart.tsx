@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { calculateFee, fetchDistricts, fetchProvinces, fetchServices, fetchWards } from "services/GHNService";
 import { actionChangeCart } from "store/actions";
 
@@ -127,6 +128,8 @@ const Cart: FC = () => {
             ...value,
             items
         })
+
+        toast('Đặt hàng thành công, nhân viên sẽ liên hệ với bạn sớm nhất.')
     }
     return (
         <>
