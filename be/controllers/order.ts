@@ -7,10 +7,13 @@ import { findAndPagin } from 'services'
 import { postOrder } from 'services/sapo'
 const order = {
     get: async (req: Request, res: Response) => {
-        const { skip, limit, status ,sort} = req.query
+        const { skip, limit, status ,sort,item} = req.query
         const query: { [k: string]: any } = {}
         if (status && status !== '-1') {
             query.status = Number(status)
+        }
+        if(item && isValidObjectId(item)) {
+            query["items._id"] = item
         }
         const _sort: { [k: string]: any } = { createdAt: -1 }
         if(sort === '2') {

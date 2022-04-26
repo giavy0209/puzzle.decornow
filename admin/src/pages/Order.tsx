@@ -1,4 +1,4 @@
-import { Button, Modal, Select, Table } from "antd";
+import { Button, Input, Modal, Select, Table } from "antd";
 import callAPI from "callAPI";
 import renderDate from "helpers/renderDate";
 import { FC, useCallback, useEffect, useState } from "react";
@@ -9,12 +9,13 @@ const Order: FC = () => {
     const [Pagin, setPagin] = useState({ total: 0, skip: 0, limit: 10, current: 1 })
     const [Status, setStatus] = useState(-1)
     const [Sort, setSort] = useState(1)
+    const [SearchItem, setSearchItem] = useState('')
 
     const getdata = useCallback(async () => {
-        const res = await callAPI.get(`/order?skip=${Pagin.skip}&limit=${Pagin.limit}&status=${Status}&sort=${Sort}`)
+        const res = await callAPI.get(`/order?skip=${Pagin.skip}&limit=${Pagin.limit}&status=${Status}&sort=${Sort}&item=${SearchItem}`)
         setData([...res.data])
         setPagin(prev => ({ ...prev, total: res.total }))
-    }, [Pagin.skip, Pagin.limit,Status,Sort])
+    }, [Pagin.skip, Pagin.limit,Status,Sort,SearchItem])
     
     useEffect(() => {
         getdata()
@@ -111,6 +112,7 @@ const Order: FC = () => {
                     <Select.Option value="4">Thấp nhất</Select.Option>
                 </Select.OptGroup>
             </Select>
+            <Input placeholder="Tìm sản phẩn trong đơn hàng" onChange={e => setSearchItem(e.target.value)}/>
             <Table
                 dataSource={Data}
                 columns={column}

@@ -58,14 +58,17 @@ var services_1 = require("services");
 var sapo_1 = require("services/sapo");
 var order = {
     get: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, skip, limit, status, sort, query, _sort, result;
+        var _a, skip, limit, status, sort, item, query, _sort, result;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = req.query, skip = _a.skip, limit = _a.limit, status = _a.status, sort = _a.sort;
+                    _a = req.query, skip = _a.skip, limit = _a.limit, status = _a.status, sort = _a.sort, item = _a.item;
                     query = {};
                     if (status && status !== '-1') {
                         query.status = Number(status);
+                    }
+                    if (item && (0, mongoose_1.isValidObjectId)(item)) {
+                        query["items._id"] = item;
                     }
                     _sort = { createdAt: -1 };
                     if (sort === '2') {
