@@ -1,6 +1,11 @@
 import { NextPage } from "next";
 import { Banner, Layout } from 'components'
-const Home: NextPage = () => {
+import Link from "next/link";
+interface Home {
+    newProduct: { [k: string]: any },
+    categories: { [k: string]: any }
+}
+const Home: NextPage<Home> = ({ newProduct, categories }) => {
     return (
         <>
             <div className="home">
@@ -13,56 +18,22 @@ const Home: NextPage = () => {
                 </section>
                 <section className="ss_2">
                     <div className="container">
-                        <div className="title">BEST SELLER</div>
+                        <div className="title">SẢN PHẨM MỚI</div>
                         <div className="row column-6">
-                            <div className="item">
-                                <div className="img">
-                                    <img className="cover" src="https://cdn.shopify.com/s/files/1/0108/2153/3753/products/4_bc1c8905-3c7c-4642-b168-ba20c85a4e43_200x.png?v=1637989309" alt="" />
-                                </div>
-                                <div className="name">
-                                    THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="img">
-                                    <img className="cover" src="https://cdn.shopify.com/s/files/1/0108/2153/3753/products/4_bc1c8905-3c7c-4642-b168-ba20c85a4e43_200x.png?v=1637989309" alt="" />
-                                </div>
-                                <div className="name">
-                                    THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="img">
-                                    <img className="cover" src="https://cdn.shopify.com/s/files/1/0108/2153/3753/products/4_bc1c8905-3c7c-4642-b168-ba20c85a4e43_200x.png?v=1637989309" alt="" />
-                                </div>
-                                <div className="name">
-                                    THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="img">
-                                    <img className="cover" src="https://cdn.shopify.com/s/files/1/0108/2153/3753/products/4_bc1c8905-3c7c-4642-b168-ba20c85a4e43_200x.png?v=1637989309" alt="" />
-                                </div>
-                                <div className="name">
-                                    THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="img">
-                                    <img className="cover" src="https://cdn.shopify.com/s/files/1/0108/2153/3753/products/4_bc1c8905-3c7c-4642-b168-ba20c85a4e43_200x.png?v=1637989309" alt="" />
-                                </div>
-                                <div className="name">
-                                    THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="img">
-                                    <img className="cover" src="https://cdn.shopify.com/s/files/1/0108/2153/3753/products/4_bc1c8905-3c7c-4642-b168-ba20c85a4e43_200x.png?v=1637989309" alt="" />
-                                </div>
-                                <div className="name">
-                                    THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN
-                                </div>
-                            </div>
+                            {
+                                newProduct?.data?.map(o => <Link key={o._id} href={`/product-detail/${o.slug}`}>
+                                    <a href={`/product-detail/${o.slug}`} className="item">
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                        <div className="price">{Number(o.price).toLocaleString()}đ</div>
+                                    </a>
+                                </Link>)
+                            }
+
                         </div>
                     </div>
                 </section>
@@ -72,9 +43,24 @@ const Home: NextPage = () => {
                         <p>Chất liệu gỗ khiến cho sản phẩm trở nên độc đáo và sang trọng hơn. Đặc biệt, việc sử dụng công nghệ in UV với mực cao cấp tạo nên độ bền màu cao. Sản phẩm của Pluzzle được thiết kế và sản xuất tại Việt Nam. Sản phẩm gửi tới bạn chứa đựng tình yêu và tâm huyết của chúng mình. Hy vọng các bạn luôn hài lòng khi trải nghiệm sản phẩm của chúng mình.Pluzzle.vn</p>
                     </div>
                 </section>
-                <section className="ss_4">
+                <section className="ss_4 mt-30">
                     <div className="container">
                         <div className="title">COLLECTION LIST</div>
+                        <div className="row column-6">
+                            {
+                                categories?.data?.map(o => <Link key={o._id} href={`/product/${o.slug}`}>
+                                    <a href={`/product/${o.slug}`} className="item">
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                    </a>
+                                </Link>)
+                            }
+
+                        </div>
                     </div>
                 </section>
             </div>

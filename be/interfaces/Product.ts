@@ -9,5 +9,5 @@ export default interface Product {
     thumbnail : string,
     images : string[],
     price : number
-    type : number
+    type : number,
 }
