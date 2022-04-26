@@ -1,12 +1,6 @@
 {
   "/_app": "pages/_app.js",
-  "/cart": "pages/cart.js",
-  "/upload": "pages/upload.js",
   "/_error": "pages/_error.js",
-  "/": "pages/index.js",
-  "/news-detail/[news-detail]": "pages/news-detail/[news-detail].js",
-  "/news/[news]": "pages/news/[news].js",
-  "/product/[product]": "pages/product/[product].js",
-  "/product-detail/[product-detail]": "pages/product-detail/[product-detail].js",
-  "/_document": "pages/_document.js"
+  "/_document": "pages/_document.js",
+  "/": "pages/index.js"
 }
