@@ -202,7 +202,7 @@ const Upload: FunctionComponent = () => {
         }
 
 
-    }, [Size, SelectedFrame, drawSlice,createPattern])
+    }, [Size, SelectedFrame,ImageSrc, drawSlice,createPattern])
 
     const handleChangeFrame = useCallback((value) => {
         setImageRatio(null)
@@ -249,14 +249,13 @@ const Upload: FunctionComponent = () => {
     const handleX = useCallback(value => {
         
         const x = Size.w / 100 * value
-        console.log(Size);
         setImagePos({ ...ImagePos, x: ImagePos.x + x })
-    },[ImagePos])
+    },[ImagePos,Size])
     
     const handleY = useCallback(value => {
         const y = Size.h / 100 * value
         setImagePos({ ...ImagePos, y: ImagePos.y + y })
-    },[ImagePos])
+    },[ImagePos,Size])
 
     const handleChangeImage = async (event: ChangeEvent<HTMLInputElement>) => {
         event.persist()
