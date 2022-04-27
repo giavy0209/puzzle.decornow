@@ -43,7 +43,6 @@
     "middleware": "middleware",
     "models": "models",
     "routers": "routers",
-    "utils": "utils",
     "services": "services",
     "socket-services": "socket-services",
     "socket": "socket"
