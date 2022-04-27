@@ -9,6 +9,7 @@
         "outDir": "../be.prod",
         "downlevelIteration": true,
         "esModuleInterop": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "Node",
+        "skipLibCheck": true
     },
 }
