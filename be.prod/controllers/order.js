@@ -175,8 +175,6 @@ var order = {
                     return [4 /*yield*/, (0, sapo_1.postOrder)(order_1)];
                 case 14:
                     data = _e.sent();
-                    console.log(data);
-                    console.log(123);
                     res.send({ status: 1 });
                     return [3 /*break*/, 16];
                 case 15:

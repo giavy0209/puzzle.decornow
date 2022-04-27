@@ -2,7 +2,7 @@ import { faEdit, faTrash, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Layout, Modal } from "components";
 import readFile from "helpers/readFile";
-import { ChangeEvent, CSSProperties, FunctionComponent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, CSSProperties, FunctionComponent, useCallback, useEffect, useRef, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaArrowAltCircleDown, FaArrowAltCircleLeft, FaArrowAltCircleRight, FaArrowAltCircleUp, FaMinus, FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,8 +52,17 @@ const Upload: FunctionComponent = () => {
         }
     }, [Size])
 
-
-    const createPattern = async () => {
+    const loadImage = useCallback((): Promise<HTMLImageElement> => new Promise(r => {
+        if (ImageSrc) {
+            const img = new Image();
+            img.src = ImageSrc
+            img.onload = () => {
+                r(img)
+            }
+        }
+    }),[ImageSrc])
+    
+    const createPattern = useCallback(async () => {
         const img = await loadImage()
         const imgW = img.width;
         const imgH = img.height
@@ -85,22 +94,13 @@ const Upload: FunctionComponent = () => {
             )
         }
         return canvasPtrn
-    }
+    },[loadImage,Size,ImagePos,ImageRatio])
 
-    const loadImage = (): Promise<HTMLImageElement> => new Promise(r => {
-        if (ImageSrc) {
-            const img = new Image();
-            img.src = ImageSrc
-            img.onload = () => {
-                r(img)
-            }
-        } else {
-        }
-    })
-
-    const drawSlice = (): Promise<any> => new Promise(r => {
+    const drawSlice = useCallback((): Promise<any> => new Promise(r => {
         const img = new Image()
         img.src = SelectedSlice.slice
+        console.log(Size);
+        
         img.onload = () => {
             const canvasPtrn = document.createElement('canvas')
             canvasPtrn.width = Size.w
@@ -109,7 +109,7 @@ const Upload: FunctionComponent = () => {
             ctxPtrn?.drawImage(img, 0, 0, img.width, img.height, 0, 0, Size.w, Size.h)
             r(canvasPtrn)
         }
-    })
+    }),[SelectedSlice,Size])
 
     useEffect(() => {
         if (ctx.current) {
@@ -198,62 +198,65 @@ const Upload: FunctionComponent = () => {
                         })
                 }
             }
-            drawSlice()
             ctx.current.closePath();
         }
 
 
-    }, [Size, SelectedFrame, ImagePos, ImageSrc, ImageRatio, SelectedSlice])
+    }, [Size, SelectedFrame, drawSlice,createPattern])
 
-
-    useEffect(() => {
+    const handleChangeFrame = useCallback((value) => {
         setImageRatio(null)
         initialRatio.current = null
-        if (SelectedFrame === 0) {
+        if (value === 0) {
             setSize({
                 w: 2100,
                 h: 3000
             })
         }
-        if (SelectedFrame === 1) {
+        if (value === 1) {
             setSize({
                 w: 3000,
                 h: 3000
             })
         }
-        if (SelectedFrame === 2) {
+        if (value === 2) {
             setSize({
                 w: 3000,
                 h: 3000
             })
         }
-        if (SelectedFrame === 3) {
+        if (value === 3) {
             setSize({
                 w: 2700,
                 h: 3000
             })
         }
-    }, [SelectedFrame])
+        setSelectedFrame(value)
+    },[])
 
-    const downSize = () => {
+    const downSize = useCallback(() => {
         if (ImageRatio && initialRatio.current) {
             setImageRatio(ImageRatio - initialRatio.current / 50)
         }
-    }
+    },[ImageRatio])
 
-    const upSize = () => {
+    const upSize = useCallback(() => {
         if (ImageRatio && initialRatio.current) {
             setImageRatio(ImageRatio + initialRatio.current / 50)
         }
-    }
-    const handleX = value => {
+    },[ImageRatio])
+
+    const handleX = useCallback(value => {
+        
         const x = Size.w / 100 * value
+        console.log(Size);
         setImagePos({ ...ImagePos, x: ImagePos.x + x })
-    }
-    const handleY = value => {
+    },[ImagePos])
+    
+    const handleY = useCallback(value => {
         const y = Size.h / 100 * value
         setImagePos({ ...ImagePos, y: ImagePos.y + y })
-    }
+    },[ImagePos])
 
     const handleChangeImage = async (event: ChangeEvent<HTMLInputElement>) => {
         event.persist()
@@ -301,6 +304,7 @@ const Upload: FunctionComponent = () => {
             document.removeEventListener('keydown', handleKey)
         }
     }, [downSize, upSize, handleX, handleY])
+
     const handleAddToCart = () => {
         if (!ImageSrc) return toast('Bạn chưa chọn hình ảnh')
         const url = canvas.current?.toDataURL()
@@ -358,12 +362,12 @@ const Upload: FunctionComponent = () => {
 
                             <div className="frame">
                                 <div className="title">Khung hình</div>
-                                <div onClick={() => setSelectedFrame(0)} className={`frame_1 ${SelectedFrame === 0 ? 'selected' : ''}`}>
+                                <div onClick={() => handleChangeFrame(0)} className={`frame_1 ${SelectedFrame === 0 ? 'selected' : ''}`}>
                                     <span>Hình chữ nhật 21x30</span>
                                 </div>
-                                <div onClick={() => setSelectedFrame(1)} className={`frame_2 ${SelectedFrame === 1 ? 'selected' : ''}`}>Hình vuông 30x30</div>
-                                <div onClick={() => setSelectedFrame(2)} className={`frame_3 ${SelectedFrame === 2 ? 'selected' : ''}`}>Hình tròn 30x30</div>
-                                <div onClick={() => setSelectedFrame(3)} className={`frame_4 ${SelectedFrame === 3 ? 'selected' : ''}`}>
+                                <div onClick={() => handleChangeFrame(1)} className={`frame_2 ${SelectedFrame === 1 ? 'selected' : ''}`}>Hình vuông 30x30</div>
+                                <div onClick={() => handleChangeFrame(2)} className={`frame_3 ${SelectedFrame === 2 ? 'selected' : ''}`}>Hình tròn 30x30</div>
+                                <div onClick={() => handleChangeFrame(3)} className={`frame_4 ${SelectedFrame === 3 ? 'selected' : ''}`}>
                                     <AiFillHeart />
                                     <span>Trái tim 27x30</span>
                                 </div>

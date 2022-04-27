@@ -46,9 +46,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var models_1 = require("models");
 var services_1 = require("services");
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
+var bunny_1 = require("services/bunny");
 var user = {
     get: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var _a, skip, limit, result, error_1;
@@ -78,22 +84,33 @@ var user = {
         });
     }); },
     post: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var file, data, error_2;
+        var file, ext, filepath, data, filename, readfile, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    _a.trys.push([0, 3, , 4]);
                     file = req.file;
-                    return [4 /*yield*/, models_1.Uploads.create({ path: "/upload/".concat(file.filename) })];
+                    ext = path_1.default.extname(file.filename);
+                    filepath = path_1.default.join(__dirname, '../', file.path);
+                    data = new models_1.Uploads();
+                    filename = "".concat(data._id).concat(ext);
+                    console.log(filename);
+                    readfile = fs_1.default.readFileSync(filepath);
+                    return [4 /*yield*/, (0, bunny_1.upload)(readfile, filename)];
                 case 1:
-                    data = _a.sent();
-                    res.send({ status: 1, data: data });
-                    return [3 /*break*/, 3];
+                    _a.sent();
+                    data.path = "/puzzle/".concat(filename);
+                    return [4 /*yield*/, data.save()];
                 case 2:
+                    _a.sent();
+                    res.send({ status: 1, data: data });
+                    return [3 /*break*/, 4];
+                case 3:
                     error_2 = _a.sent();
+                    console.log(error_2);
                     res.send(error_2);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     }); },

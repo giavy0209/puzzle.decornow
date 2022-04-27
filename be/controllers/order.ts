@@ -101,9 +101,6 @@ const order = {
             })
 
             const data = await postOrder(order)
-            console.log(data);
-            console.log(123);
-            
 
             res.send({ status: 1 })
         } catch (error) {

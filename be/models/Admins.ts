@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import { Admin } from 'interfaces'
+import { hashSync } from 'bcrypt'
 
 const AdminSchema = new Schema<Admin>({
     username: { type: String, required: true, unique: true },
@@ -11,6 +12,5 @@ const AdminSchema = new Schema<Admin>({
 })
 
 const Admins = model<Admin>('admins', AdminSchema)
-
 
 export default Admins

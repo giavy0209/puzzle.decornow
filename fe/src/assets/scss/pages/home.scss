@@ -56,6 +56,7 @@
             border-bottom: $border;
         }
         .item {
+            margin-top: 30px;
             width: calc(1/6*100% - (1 - 1/6)*10px);
             color: $text-color;
             .img {
