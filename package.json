@@ -13,7 +13,7 @@
     "build": "node build.js",
     "build:be": "npm start --prefix be",
     "build:fe": "npm run build --prefix fe",
-    "build:admin": "npm run build --prefix admin",
+    "build:admin": "npm run build:prod --prefix admin",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

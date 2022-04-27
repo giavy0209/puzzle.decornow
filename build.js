@@ -1,15 +1,15 @@
 const {exec} = require('child_process')
 
-// const be = exec ('npm run build:be')
+const be = exec ('npm run build:be')
 const fe = exec ('npm run build:fe')
 const admin = exec ('npm run build:admin')
 
-// be.stdout.on('data', data => {
-//     console.log(`${data} from be`)
-// })
-// be.stderr.on('data', data => {
-//     console.log(`${data} from be`)
-// })
+be.stdout.on('data', data => {
+    console.log(`${data} from be`)
+})
+be.stderr.on('data', data => {
+    console.log(`${data} from be`)
+})
 
 fe.stdout.on('data', data => {
     console.log(`${data} from fe`)
