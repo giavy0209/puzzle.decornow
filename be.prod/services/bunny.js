@@ -44,8 +44,10 @@ var axios_1 = __importDefault(require("axios"));
 var callAPI = axios_1.default.create({
     baseURL: 'https://storage.bunnycdn.com/vyphamtest/puzzle',
     headers: {
-        AccessKey: 'd93c65dc-78f9-4fce-a8bbe3b2b496-193d-42a8'
-    }
+        AccessKey: 'd93c65dc-78f9-4fce-a8bbe3b2b496-193d-42a8',
+    },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity
 });
 var upload = function (file, filename) { return __awaiter(void 0, void 0, void 0, function () {
     var res;
