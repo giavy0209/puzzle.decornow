@@ -6,6 +6,7 @@ const App: NextPage = () => {
 
     <>
     <Head>
+      <title>Giỏ hàng</title>
     </Head>
     <Upload />
     </>
