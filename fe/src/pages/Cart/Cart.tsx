@@ -11,6 +11,7 @@ import { actionChangeCart } from "store/actions";
 
 const Cart: FC = () => {
     const formRef = useRef<any>()
+    const [IsLoading, setIsLoading] = useState(false)
     const [Provinces, setProvinces] = useState<any[]>([])
     const [ProvinceSelected, setProvinceSelected] = useState<any>(null)
     const [Districts, setDistricts] = useState<any[]>([])
@@ -102,13 +103,15 @@ const Cart: FC = () => {
 
     const handleFormDone = async value => {
         const items: any[] = []
-
+        setIsLoading(true)
         for (let index = 0; index < cart.length; index++) {
             const item = cart[index];
             if (item.file) {
                 const form = new FormData()
                 form.append('file', item.file)
                 const res = await callAPI.post('upload',form)
+                console.log(res);
+                
                 const thumbnail = `${DOMAIN}${res.data.path}`
                 
                 item.thumbnail = thumbnail
@@ -128,7 +131,9 @@ const Cart: FC = () => {
             ...value,
             items
         })
-
+        dispatch(actionChangeCart([]))
+        setIsLoading(false)
+        
         toast('Đặt hàng thành công, nhân viên sẽ liên hệ với bạn sớm nhất.')
     }
     return (
@@ -238,7 +243,7 @@ const Cart: FC = () => {
                         <Form.Item rules={[{ required: true, message: 'Vui lòng nhập địa chỉ' }]} name={"address"}>
                             <Input placeholder="Địa chỉ cụ thể" />
                         </Form.Item>
-                        <Button htmlType="submit">Đặt hàng</Button>
+                        <Button type="primary" loading={IsLoading} htmlType="submit">Đặt hàng</Button>
                     </Form>
                 </div>
             </div>
