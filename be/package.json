@@ -44,7 +44,6 @@
     "models": "models",
     "routers": "routers",
     "services": "services",
-    "socket-services": "socket-services",
     "socket": "socket"
   }
 }
