@@ -7,8 +7,7 @@ module.exports = {
             "path": ".",
             "repo" : "https://github.com/giavy0209/puzzle.decornow.git",
             "ref"  : "origin/main",
-            "pre-deploy" : "npm run build",
-            "post-deploy" : "pm2 restart ecosystem.config.js"
+            "post-deploy" : "npm run build && pm2 restart ecosystem.config.js"
         }
     }
 };

@@ -11,7 +11,7 @@ router.route('/upload')
     )
     .post(
         uploadFile,
-        upload.post,
+        upload.post, 
     )
 
 export default router
