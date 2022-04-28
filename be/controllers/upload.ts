@@ -28,7 +28,6 @@ const user = {
             const data = new Uploads()
 
             const filename = `${data._id}${ext}`
-            console.log(filename);
             
             const readfile = fs.readFileSync(filepath)
 
@@ -36,7 +35,7 @@ const user = {
 
             data.path = `/puzzle/${filename}`
             await data.save()
-
+            fs.unlinkSync(filepath)
             res.send({ status: 1, data })
         } catch (error) {
             console.log(error);
