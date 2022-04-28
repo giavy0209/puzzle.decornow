@@ -20,9 +20,9 @@
     "build:admin": "npm run build:prod --prefix admin",
 
     "install:all": "node install.js",
-    "install:be": "npm install --prefix be",
-    "install:fe": "npm install --prefix fe",
-    "install:admin": "npm install:prod --prefix admin",
+    "install:be": "npm install --force --prefix be",
+    "install:fe": "npm install --force --prefix fe",
+    "install:admin": "npm install --force --prefix admin",
 
     "deploy" : "pm2 deploy deploy.config.js production --force",
 
