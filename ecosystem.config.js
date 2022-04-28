@@ -3,7 +3,7 @@ module.exports = {
         {
             script: 'npm',
             cwd : './fe',
-            arg : 'start',
+            args : 'start',
             name : "puzzle-fe",
             env : {
                 PORT: 8000
@@ -12,13 +12,13 @@ module.exports = {
         {
             script: 'npm',
             cwd : './be.prod',
-            arg : 'start',
+            args : 'start',
             name : "puzzle-be"
         },
         {
             script: 'npm',
             cwd : './admin.prod',
-            arg : 'start',
+            args : 'start',
             name : "puzzle-admin"
         },
     ],
