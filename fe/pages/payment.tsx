@@ -10,7 +10,7 @@ const App: NextPage = () => {
     </Head>
     <div className="container mt-30">
       <div className="title">CHÍNH SÁCH THANH TOÁN VÀ BẢO MẬT</div>
-      <p>Tại Pluzzle.vn sự riêng tư của khách hàng là điều vô cùng quan trọng. Vì thế, Shoeaholic sẽ chỉ thu thập những thông tin cần thiết và có liên quan đến giao dịch giữa quý khách hàng và Pluzzle. Những thông tin này gồm có tên, số điện thoại và một số thông tin khác của quý khách hàng theo cách được đề ra trong "Chính Sách Bảo Mật" này.</p>
+      <p>Tại Pluzzle.vn sự riêng tư của khách hàng là điều vô cùng quan trọng. Vì thế, Shoeaholic sẽ chỉ thu thập những thông tin cần thiết và có liên quan đến giao dịch giữa quý khách hàng và Pluzzle. Những thông tin này gồm có tên, số điện thoại và một số thông tin khác của quý khách hàng theo cách được đề ra trong Chính Sách Bảo Mật này.</p>
       <p>Quý khách có thể ghé thăm trang web Pluzzle.vn mà không cần phải cung cấp bất kỳ thông tin cá nhân nào. Khi truy cập trang web, quý khách sẽ luôn ở trong tình trạng vô danh trừ khi quý khách đăng ký tài khoản trên web và đăng nhập vào tài khoản đó.</p>
       <p>Quy định Bảo mật của Pluzzle hoàn toàn tuân theo theo Quy định của Pháp luật về Bảo mật thông tin cá nhân.</p>
       <p>1. Thu thập thông tin cá nhân</p>

@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    
     "start": "node prod.js",
     "start:dev": "node index",
+
     "start:be": "npm start --prefix be",
     "start:be:prod": "npm start --prefix be.prod",
     "start:fe": "npm run dev --prefix fe",
