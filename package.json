@@ -19,7 +19,12 @@
     "build:fe": "npm run build --prefix fe",
     "build:admin": "npm run build:prod --prefix admin",
 
-    "deploy" : "pm2 deploy deploy.config.js production",
+    "install:all": "node install.js",
+    "install:be": "npm install --prefix be",
+    "install:fe": "npm install --prefix fe",
+    "install:admin": "npm install:prod --prefix admin",
+
+    "deploy" : "pm2 deploy deploy.config.js production --force",
 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
