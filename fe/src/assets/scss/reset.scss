@@ -196,9 +196,13 @@ button {
     row-gap: var(--gap-row);
 
     @for $i from 1 through 12 {
+        &.center {
+            justify-content: center;
+        }
+
         &.flex#{$i} {
             .item {
-                width: calc(1 / #{$i} *100% - (1 - 1 / #{$i}) * 30px);
+                width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
 
                 >* {
                     min-height: 100%;
@@ -209,6 +213,76 @@ button {
 
         .col-#{$i} {
             width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+        }
+    }
+
+    @for $i from 1 through 12 {
+        &.lg-flex#{$i} {
+            @media only screen and (max-width : 992px) {
+                .item {
+                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                }
+            }
+        }
+    }
+
+    @for $i from 1 through 12 {
+        &.md-flex#{$i} {
+            @media only screen and (max-width : 768px) {
+                .item {
+                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                }
+            }
+        }
+    }
+
+    @for $i from 1 through 12 {
+        &.sm-flex#{$i} {
+            @media only screen and (max-width : 576px) {
+                .item {
+                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                }
+            }
+        }
+    }
+
+    @for $i from 1 through 12 {
+        &.xs-flex#{$i} {
+            @media only screen and (max-width : 450px) {
+                .item {
+                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                }
+            }
+        }
+    }
+
+    @for $i from 1 through 12 {
+        @media only screen and (max-width : 992px) {
+            .lg-col-#{$i} {
+                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+            }
+        }
+    }
+
+    @for $i from 1 through 12 {
+        @media only screen and (max-width : 768px) {
+            .md-col-#{$i} {
+                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+            }
+        }
+    }
+    @for $i from 1 through 12 {
+        @media only screen and (max-width : 576px) {
+            .sm-col-#{$i} {
+                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+            }
+        }
+    }
+    @for $i from 1 through 12 {
+        @media only screen and (max-width : 450px) {
+            .xs-col-#{$i} {
+                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+            }
         }
     }
 }

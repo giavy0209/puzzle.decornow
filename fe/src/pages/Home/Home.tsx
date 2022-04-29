@@ -19,10 +19,10 @@ const Home: NextPage<Home> = ({ newProduct, categories }) => {
                 <section className="ss_2">
                     <div className="container">
                         <div className="title">SẢN PHẨM MỚI</div>
-                        <div className="row column-6">
-                            {
-                                newProduct?.data?.map(o => <Link key={o._id} href={`/product-detail/${o.slug}`}>
-                                    <a href={`/product-detail/${o.slug}`} className="item">
+                        <div className="flexbox flex6 lg-flex4 md-flex3 sm-flex2 xs-flex1 mt-30 center ">
+                        {
+                                newProduct?.data?.map(o => <div className="item"><Link key={o._id} href={`/product-detail/${o.slug}`}>
+                                    <a href={`/product-detail/${o.slug}`}>
                                         <div className="img">
                                             <img className="cover" src={o.thumbnail} alt="" />
                                         </div>
@@ -31,7 +31,72 @@ const Home: NextPage<Home> = ({ newProduct, categories }) => {
                                         </div>
                                         <div className="price">{Number(o.price).toLocaleString()}đ</div>
                                     </a>
-                                </Link>)
+                                </Link></div>)
+                            }
+                            {
+                                newProduct?.data?.map(o => <div className="item"><Link key={o._id} href={`/product-detail/${o.slug}`}>
+                                    <a href={`/product-detail/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                        <div className="price">{Number(o.price).toLocaleString()}đ</div>
+                                    </a>
+                                </Link></div>)
+                            }
+                            {
+                                newProduct?.data?.map(o => <div className="item"><Link key={o._id} href={`/product-detail/${o.slug}`}>
+                                    <a href={`/product-detail/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                        <div className="price">{Number(o.price).toLocaleString()}đ</div>
+                                    </a>
+                                </Link></div>)
+                            }
+                            {
+                                newProduct?.data?.map(o => <div className="item"><Link key={o._id} href={`/product-detail/${o.slug}`}>
+                                    <a href={`/product-detail/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                        <div className="price">{Number(o.price).toLocaleString()}đ</div>
+                                    </a>
+                                </Link></div>)
+                            }
+                            {
+                                newProduct?.data?.map(o => <div className="item"><Link key={o._id} href={`/product-detail/${o.slug}`}>
+                                    <a href={`/product-detail/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                        <div className="price">{Number(o.price).toLocaleString()}đ</div>
+                                    </a>
+                                </Link></div>)
+                            }
+                            {
+                                newProduct?.data?.map(o => <div className="item"><Link key={o._id} href={`/product-detail/${o.slug}`}>
+                                    <a href={`/product-detail/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                        <div className="price">{Number(o.price).toLocaleString()}đ</div>
+                                    </a>
+                                </Link></div>)
                             }
 
                         </div>
@@ -46,10 +111,10 @@ const Home: NextPage<Home> = ({ newProduct, categories }) => {
                 <section className="ss_4 mt-30">
                     <div className="container">
                         <div className="title">COLLECTION LIST</div>
-                        <div className="row column-6">
-                            {
-                                categories?.data?.map(o => <Link key={o._id} href={`/product/${o.slug}`}>
-                                    <a href={`/product/${o.slug}`} className="item">
+                        <div className="flexbox flex6 lg-flex4 md-flex3 sm-flex2 xs-flex1 mt-30">
+                        {
+                                categories?.data?.map(o => <div className="item"><Link key={o._id} href={`/product/${o.slug}`}>
+                                    <a href={`/product/${o.slug}`}>
                                         <div className="img">
                                             <img className="cover" src={o.thumbnail} alt="" />
                                         </div>
@@ -57,7 +122,67 @@ const Home: NextPage<Home> = ({ newProduct, categories }) => {
                                             {o.name}
                                         </div>
                                     </a>
-                                </Link>)
+                                </Link></div> )
+                            }
+                            {
+                                categories?.data?.map(o => <div className="item"><Link key={o._id} href={`/product/${o.slug}`}>
+                                    <a href={`/product/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                    </a>
+                                </Link></div> )
+                            }
+                            {
+                                categories?.data?.map(o => <div className="item"><Link key={o._id} href={`/product/${o.slug}`}>
+                                    <a href={`/product/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                    </a>
+                                </Link></div> )
+                            }
+                            {
+                                categories?.data?.map(o => <div className="item"><Link key={o._id} href={`/product/${o.slug}`}>
+                                    <a href={`/product/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                    </a>
+                                </Link></div> )
+                            }
+                            {
+                                categories?.data?.map(o => <div className="item"><Link key={o._id} href={`/product/${o.slug}`}>
+                                    <a href={`/product/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                    </a>
+                                </Link></div> )
+                            }
+                            {
+                                categories?.data?.map(o => <div className="item"><Link key={o._id} href={`/product/${o.slug}`}>
+                                    <a href={`/product/${o.slug}`}>
+                                        <div className="img">
+                                            <img className="cover" src={o.thumbnail} alt="" />
+                                        </div>
+                                        <div className="name">
+                                            {o.name}
+                                        </div>
+                                    </a>
+                                </Link></div> )
                             }
 
                         </div>

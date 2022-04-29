@@ -17,7 +17,7 @@ const News: FC<News> = ({ pageData, items }) => {
         <div className="products">
             <div className="container">
                 <h1 className="title">{pageData.name}</h1>
-                <div className="flexbox flex4 mt-30">
+                <div className="flexbox flex6 lg-flex4 md-flex3 sm-flex2 xs-flex1 mt-30">
                     {items?.data.map(o => <div key={o._id} className="item">
                         <Link href={`/${o.type === 1 ? 'product-detail' : 'news-detail'}/${o.slug}`}>
                             <a className="product">

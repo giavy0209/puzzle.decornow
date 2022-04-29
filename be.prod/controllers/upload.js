@@ -94,7 +94,6 @@ var user = {
                     filepath = path_1.default.join(__dirname, '../', file.path);
                     data = new models_1.Uploads();
                     filename = "".concat(data._id).concat(ext);
-                    console.log(filename);
                     readfile = fs_1.default.readFileSync(filepath);
                     return [4 /*yield*/, (0, bunny_1.upload)(readfile, filename)];
                 case 1:
@@ -103,6 +102,7 @@ var user = {
                     return [4 /*yield*/, data.save()];
                 case 2:
                     _a.sent();
+                    fs_1.default.unlinkSync(filepath);
                     res.send({ status: 1, data: data });
                     return [3 /*break*/, 4];
                 case 3:

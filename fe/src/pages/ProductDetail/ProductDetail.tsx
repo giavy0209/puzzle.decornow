@@ -48,7 +48,7 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
             <div className="product-detail">
                 <div className="container">
                     <div className="flexbox">
-                        <div className="col-4">
+                        <div className="col-4 md-col-6 sm-col-12">
                             <div className="image-slice">
                                 <div className="main">
                                     <img src={MainImage} alt="" />
@@ -68,20 +68,20 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-8">
+                        <div className="col-8 md-col-6 sm-col-12">
                             <div className="detail">
                                 <h1 className="name">{pageData.name}</h1>
                                 <div className="price">{pageData.price.toLocaleString()}đ</div>
                                 <div className="quantity">
                                     <div className="flexbox">
-                                        <div className="col-6">
+                                        <div className="col-6 lg-col-12">
                                             <div className="input">
                                                 <div onClick={() => handleQuantity(null, -1)} className="change"><FaMinus /></div>
                                                 <input value={Quantity} onChange={handleQuantity} type="number" name="" id="" />
                                                 <div onClick={() => handleQuantity(null, 1)} className="change"><FaPlus /></div>
                                             </div>
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-6 lg-col-12">
                                             <div className="add">
                                                 <div onClick={handleAddToCart} className="button">Thêm vào giỏ hàng</div>
                                             </div>

@@ -78,15 +78,6 @@ const Header: FC<Header> = ({ menu }) => {
             <header>
                 <div className="menu">
                     <ul>
-                        <li>
-                            <FaFacebookF />
-                        </li>
-                        <li>
-                            <FaYoutube />
-                        </li>
-                        <li>
-                            <FaInstagram />
-                        </li>
                         {
                             MENU.map(o => <li key={o.text}>
                                 <Link href={o.link}>

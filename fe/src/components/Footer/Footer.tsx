@@ -12,7 +12,7 @@ const Footer: FC = () => {
         <div className="footer-default">
           <div className="container">
             <div className="flexbox">
-              <div className="col-4">
+              <div className="col-4 md-col-12">
                 <p className="footer-default__header">DECORNOW</p>
                 <p className="footer-default__col-1--license">
                   Giấy phép đăng ký kinh doanh số 41L8031928 do UBND Quận 12 cấp ngày 25/02/2021
@@ -37,7 +37,7 @@ const Footer: FC = () => {
                   </li>
                 </ul>
               </div>
-              <div className="col-4">
+              <div className="col-4 md-col-12">
                 <p className="footer-default__header">Trang</p>
                 <ul>
                   <li><Link href="/upload">Thiết kế</Link></li>
@@ -45,7 +45,7 @@ const Footer: FC = () => {
                 </ul>
               </div>
 
-              <div className="col-4">
+              <div className="col-4 md-col-12">
                 <p className="footer-default__header text-left">Chính sách</p>
                 <ul>
                   <li><Link href="/shipping-policy">Chính sách vận chuyển</Link></li>
