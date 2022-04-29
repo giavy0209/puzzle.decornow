@@ -4,11 +4,14 @@ import { Form, Layout, Modal } from "components";
 import readFile from "helpers/readFile";
 import { ChangeEvent, CSSProperties, FunctionComponent, useCallback, useEffect, useRef, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
-import { FaArrowAltCircleDown, FaArrowAltCircleLeft, FaArrowAltCircleRight, FaArrowAltCircleUp, FaMinus, FaPlus } from "react-icons/fa";
+import { FaArrowAltCircleDown, FaArrowAltCircleLeft, FaArrowAltCircleRight, FaArrowAltCircleUp, FaTrash } from "react-icons/fa";
+import {MdCropRotate} from 'react-icons/md'
+import {AiOutlineZoomOut, AiOutlineZoomIn} from 'react-icons/ai'
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { actionChangeCart } from "store/actions";
 import { v4 as uuidv4 } from 'uuid';
+import { FiRotateCcw, FiRotateCw } from "react-icons/fi";
 
 const slice = [
     {
@@ -31,14 +34,16 @@ const slice = [
 
 const Upload: FunctionComponent = () => {
     const dispatch = useDispatch()
-    const cart = useSelector((state : any) => state.cart)
+    const cart = useSelector((state: any) => state.cart)
     const [SelectedSlice, setSelectedSlice] = useState(slice[0])
     const [SelectedFrame, setSelectedFrame] = useState(1)
     const [Size, setSize] = useState({ w: 3000, h: 3000 })
     const [ImagePos, setImagePos] = useState({ x: 0, y: 0 })
+    const [ImageRotate, setImageRotate] = useState(0)
+    const [ImageScale, setImageScale] = useState(1)
     const [ImageRatio, setImageRatio] = useState<number | null>(null)
 
-    const [ImageSrc, setImageSrc] = useState<null | string>(null)
+    const [ImageSrc, setImageSrc] = useState<any | string>(null)
     const initialRatio = useRef<number | null>(null)
     const canvas = useRef<HTMLCanvasElement>(null)
     const ctx = useRef<CanvasRenderingContext2D | null>()
@@ -60,8 +65,8 @@ const Upload: FunctionComponent = () => {
                 r(img)
             }
         }
-    }),[ImageSrc])
-    
+    }), [ImageSrc])
+
     const createPattern = useCallback(async () => {
         const img = await loadImage()
         const imgW = img.width;
@@ -73,7 +78,9 @@ const Upload: FunctionComponent = () => {
         const percentX = Size.w / imgW;
         const percentY = Size.h / imgH
         const ratio = Math.min(percentX, percentY)
-
+        
+        ctxPtrn?.rotate(ImageRotate*Math.PI/180);
+        ctxPtrn?.scale(ImageScale , 1)
         if (!initialRatio.current) initialRatio.current = ratio
         if (ImageRatio === null) {
             setImageRatio(initialRatio.current)
@@ -81,26 +88,25 @@ const Upload: FunctionComponent = () => {
                 img,
                 0, 0,
                 imgW, imgH,
-                ImagePos.x, ImagePos.y,
-                Size.w * initialRatio.current, Size.h * initialRatio.current
+                ImagePos.x * ImageScale, ImagePos.y,
+                imgW* initialRatio.current , imgH * initialRatio.current
             )
         } else {
             ctxPtrn?.drawImage(
                 img,
                 0, 0,
                 imgW, imgH,
-                ImagePos.x, ImagePos.y,
-                Size.w * ImageRatio, Size.h * ImageRatio
+                ImagePos.x * ImageScale, ImagePos.y,
+                imgW* ImageRatio , imgH * ImageRatio
             )
         }
         return canvasPtrn
-    },[loadImage,Size,ImagePos,ImageRatio])
+    }, [loadImage, Size, ImagePos, ImageRatio,ImageRotate,ImageScale])
 
     const drawSlice = useCallback((): Promise<any> => new Promise(r => {
         const img = new Image()
         img.src = SelectedSlice.slice
-        console.log(Size);
-        
+
         img.onload = () => {
             const canvasPtrn = document.createElement('canvas')
             canvasPtrn.width = Size.w
@@ -109,7 +115,7 @@ const Upload: FunctionComponent = () => {
             ctxPtrn?.drawImage(img, 0, 0, img.width, img.height, 0, 0, Size.w, Size.h)
             r(canvasPtrn)
         }
-    }),[SelectedSlice,Size])
+    }), [SelectedSlice, Size])
 
     useEffect(() => {
         if (ctx.current) {
@@ -125,6 +131,7 @@ const Upload: FunctionComponent = () => {
                                 const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
                                 ctx.current.fillStyle = pattern
                                 ctx.current.fillRect(0, 0, Size.w, Size.h)
+                                
                             }
                             drawSlice()
                                 .then(cP => {
@@ -202,7 +209,7 @@ const Upload: FunctionComponent = () => {
         }
 
 
-    }, [Size, SelectedFrame,ImageSrc, drawSlice,createPattern])
+    }, [Size, SelectedFrame, ImageSrc,drawSlice, createPattern])
 
     const handleChangeFrame = useCallback((value) => {
         setImageRatio(null)
@@ -232,30 +239,30 @@ const Upload: FunctionComponent = () => {
             })
         }
         setSelectedFrame(value)
-    },[])
+    }, [])
 
     const downSize = useCallback(() => {
         if (ImageRatio && initialRatio.current) {
             setImageRatio(ImageRatio - initialRatio.current / 50)
         }
-    },[ImageRatio])
+    }, [ImageRatio])
 
     const upSize = useCallback(() => {
         if (ImageRatio && initialRatio.current) {
             setImageRatio(ImageRatio + initialRatio.current / 50)
         }
-    },[ImageRatio])
+    }, [ImageRatio])
 
     const handleX = useCallback(value => {
-        
+
         const x = Size.w / 100 * value
         setImagePos({ ...ImagePos, x: ImagePos.x + x })
-    },[ImagePos,Size])
-    
+    }, [ImagePos, Size])
+
     const handleY = useCallback(value => {
         const y = Size.h / 100 * value
         setImagePos({ ...ImagePos, y: ImagePos.y + y })
-    },[ImagePos,Size])
+    }, [ImagePos, Size])
 
     const handleChangeImage = async (event: ChangeEvent<HTMLInputElement>) => {
         event.persist()
@@ -318,45 +325,87 @@ const Upload: FunctionComponent = () => {
 
             const file = new Blob([ia], { type: mimeString })
             const blobURL = URL.createObjectURL(file)
-            
+
             cart.push({
-                _id : uuidv4(),
-                thumbnail : blobURL,
+                _id: uuidv4(),
+                thumbnail: blobURL,
                 file,
-                price : 500000,
-                quantity : 1
+                price: 500000,
+                quantity: 1
             })
             dispatch(actionChangeCart([...cart]))
             toast('Đã thêm vào giỏ hàng')
             setImageSrc(null)
         }
     }
+    const deleteImage = useCallback(() => {
+        setImageSrc(null)
+    },[])
+
+    const rotate = useCallback((value) => {
+        setImageRotate(_prev => _prev + value)
+    },[])
     return (
         <>
             <div className="upload">
                 <div className="container">
                     <div className="title">THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN</div>
                     <div className="flexbox mt-30">
-                        <div className="col-6">
+                        <div className="col-6 lg-col-12">
                             <div id="canvas">
                                 <canvas ref={canvas}></canvas>
                             </div>
                         </div>
-                        <div className="col-6">
+                        <div className="col-6 lg-col-12">
                             <div className="upload">
-                                <label htmlFor="upload">
-                                    Tải hình lên
-                                </label>
-                                <input onChange={handleChangeImage} type="file" name="" id="upload" />
-                            </div>
-                            <div className="controls">
-                                <div onClick={upSize} className="control"><FaPlus /></div>
-                                <div onClick={downSize} className="control"><FaMinus /></div>
-                                <div onClick={() => handleY(-1)} className="control"><FaArrowAltCircleUp /></div>
-                                <div onClick={() => handleY(1)} className="control"><FaArrowAltCircleDown /></div>
-                                <div onClick={() => handleX(-1)} className="control"><FaArrowAltCircleLeft /></div>
-                                <div onClick={() => handleX(1)} className="control"><FaArrowAltCircleRight /></div>
-                                <p>Hoặc dùng phím +,- và mũi tên trên bàn phím để điều chỉnh</p>
+                                {
+                                    !ImageSrc ?
+                                        <>
+                                            <label htmlFor="upload">
+                                                Tải hình lên
+                                            </label>
+                                            <input onChange={handleChangeImage} type="file" name="" id="upload" />
+                                        </>
+                                        :
+                                        <>
+                                            <div className="selected">
+                                                <img src={ImageSrc} alt="" />
+                                                <div className="controls">
+                                                    <div className="control-row">
+                                                        <button onClick={deleteImage} className="control">
+                                                            <span><FaTrash /></span>
+                                                        </button>
+                                                        <button onClick={upSize} className="control">
+                                                            <span><AiOutlineZoomIn /></span>
+                                                        </button>
+                                                        <button onClick={downSize} className="control">
+                                                            <span><AiOutlineZoomOut /></span>
+                                                        </button>
+                                                        <button onClick={()=>rotate(-10)} className="control">
+                                                            <span><FiRotateCcw /></span>
+                                                        </button>
+                                                        <button onClick={()=>rotate(10)} className="control">
+                                                            <span><FiRotateCw /></span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="control-row">
+                                                        <button onClick={() => handleY(-1)} className="control">
+                                                            <span><FaArrowAltCircleUp /></span>
+                                                        </button>
+                                                        <button onClick={() => handleY(1)} className="control">
+                                                            <span><FaArrowAltCircleDown /></span>
+                                                        </button>
+                                                        <button onClick={() => handleX(-1)} className="control">
+                                                            <span><FaArrowAltCircleLeft /></span>
+                                                        </button>
+                                                        <button onClick={() => handleX(1)} className="control">
+                                                            <span><FaArrowAltCircleRight /></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                }
                             </div>
 
                             <div className="frame">
