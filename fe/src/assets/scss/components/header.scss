@@ -1,140 +1,227 @@
 header {
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
     border-bottom: $border;
     box-shadow: 0 0 10px 0 rgba($color: #000000, $alpha: .2);
-    .logo {
-        width: 84px;
+    position: relative;
+
+    .toggle {
+        display: none;
+
+        @media only screen and (max-width : $md) {
+            display: block;
+            padding: 10px;
+            cursor: pointer;
+            font-size: $large-size;
+        }
     }
 
-    .menu {
-        flex: 1;
-        ul {
-            display: flex;
-            align-items: center;
-            >li {
-                padding: 5px 20px;
+    .mask {
+        display: none;
+
+        @media only screen and (max-width : $md) {
+            display: block;
+
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            background-color: rgba($color: #000000, $alpha: 0.3);
+            transition: .3s;
+            cursor: pointer;
+            z-index: 9999;
+            &.show {
+                width: 30%;
+                height: 100vh;
+            }
+        }
+    }
+
+    .header {
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+
+        .close {
+            display: none;
+        }
+
+        .menu {
+            flex: 1;
+
+            ul {
                 display: flex;
                 align-items: center;
-                position: relative;
-                a {
-                    color: $text-color;
-                }
-                &:hover {
+
+                >li {
+                    padding: 5px 20px;
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+
+                    a {
+                        color: $text-color;
+                    }
+
+                    &:hover {
+                        ul {
+                            opacity: 1;
+                            pointer-events: all;
+                            top: 100%;
+                        }
+                    }
+
                     ul {
-                        opacity: 1;
-                        pointer-events: all;
-                        top: 100%;
+                        display: flex;
+                        background-color: #fff;
+                        top: calc(100% + 20px);
+                        left: 0;
+                        z-index: 99;
+                        box-shadow: 0 0 10px 0 rgba($color: #000000, $alpha: .4);
+                        position: absolute;
+                        opacity: 0;
+                        pointer-events: none;
+                        transition: .3s;
+                        width: 300px;
+                        flex-direction: column;
+
+                        li {
+                            transition: .3s;
+                            padding: 10px;
+                            width: 100%;
+
+                            &:hover {
+                                background-color: rgba($color: #000000, $alpha: .2);
+                            }
+                        }
                     }
                 }
-                ul {
-                    display: flex;
-                    background-color: #fff;
-                    top: calc(100% + 20px);
-                    left: 0;
-                    z-index: 99;
-                    box-shadow: 0 0 10px 0 rgba($color: #000000, $alpha: .4);
+            }
+
+        }
+
+        .profile {
+            display: flex;
+            justify-content: space-between;
+
+            >* {
+                margin-right: 10px;
+            }
+
+            &.loged {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                position: relative;
+
+                .icon {
+                    padding: 15px;
+                    border: $border;
+                    border-radius: 50%;
+                    position: relative;
+
+                    >* {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+
+                .popover {
                     position: absolute;
+                    top: calc(100% + 50px);
                     opacity: 0;
                     pointer-events: none;
+                    right: 0;
+                    border-radius: 10px;
+                    background-color: #fff;
+                    box-shadow: 0 0 20px 0 rgba($color: #000000, $alpha: .4);
+                    z-index: 999;
                     transition: .3s;
-                    width: 300px;
-                    flex-direction: column;
-                    li {
-                        transition: .3s;
-                        padding: 10px;
-                        width: 100%;
-                        &:hover {
-                            background-color: rgba($color: #000000, $alpha: .2);
-                        }
+
+                    &.show {
+                        top: calc(100% + 20px);
+                        opacity: 1;
+                        pointer-events: all;
                     }
-                }
-            }
-        }
-    }
 
-    .profile {
-        display: flex;
-        justify-content: space-between;
+                    &::before {
+                        content: "";
+                        width: 0;
+                        height: 0;
+                        border-left: 10px solid transparent;
+                        border-right: 10px solid transparent;
+                        border-bottom: 10px solid #fff;
+                        position: absolute;
+                        top: 0;
+                        transform: translate(0, -100%);
+                        right: 10px;
+                    }
 
-        >* {
-            margin-right: 10px;
-        }
-
-        &.loged {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-
-            .icon {
-                padding: 15px;
-                border: $border;
-                border-radius: 50%;
-                position: relative;
-
-                >* {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                }
-            }
-
-            .popover {
-                position: absolute;
-                top: calc(100% + 50px);
-                opacity: 0;
-                pointer-events: none;
-                right: 0;
-                border-radius: 10px;
-                background-color: #fff;
-                box-shadow: 0 0 20px 0 rgba($color: #000000, $alpha: .4);
-                z-index: 999;
-                transition: .3s;
-
-                &.show {
-                    top: calc(100% + 20px);
-                    opacity: 1;
-                    pointer-events: all;
-                }
-
-                &::before {
-                    content: "";
-                    width: 0;
-                    height: 0;
-                    border-left: 10px solid transparent;
-                    border-right: 10px solid transparent;
-                    border-bottom: 10px solid #fff;
-                    position: absolute;
-                    top: 0;
-                    transform: translate(0, -100%);
-                    right: 10px;
-                }
-
-                ul {
-                    li {
-                        padding: 10px;
-                        color: $text-color;
-                        cursor: pointer;
-                        transition: .3s;
-                        * {
+                    ul {
+                        li {
+                            padding: 10px;
                             color: $text-color;
-                        }
+                            cursor: pointer;
+                            transition: .3s;
 
-                        &:hover {
-                            background-color: #ccc;
+                            * {
+                                color: $text-color;
+                            }
+
+                            &:hover {
+                                background-color: #ccc;
+                            }
                         }
                     }
                 }
             }
         }
+
+        .cart {
+            cursor: pointer;
+            color: #000;
+            font-size: $large-size;
+            padding: 5px;
+        }
+
+        @media only screen and (max-width : $md) {
+            flex-direction: column;
+            height: 30px;
+            overflow: hidden;
+            transition: .3s;
+            position: absolute;
+            width: 70%;
+            height: 100vh;
+            background-color: #fff;
+            z-index: 9999;
+            border-right: 2px solid #000;
+            top: 0;
+            left: 0;
+            transform: translate(-100%, 0);
+
+            .close {
+                display: block;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: $large-size;
+                cursor: pointer;
+            }
+
+            &.show {
+                transform: translate(0, 0);
+            }
+
+            .toggle {
+                display: block;
+            }
+
+            ul {
+                flex-direction: column;
+            }
+        }
     }
-    .cart {
-        cursor: pointer;
-        color: #000;
-        font-size: $large-size;
-        padding: 5px;
-    }
+
+
 }

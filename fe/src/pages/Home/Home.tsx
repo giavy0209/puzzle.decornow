@@ -13,7 +13,7 @@ const Home: NextPage<Home> = ({ newProduct, categories }) => {
                 <section className="ss_1">
                     <div className="container">
                         <iframe width="100%" style={{ aspectRatio: '16 / 9' }} src="https://www.youtube.com/embed/_0NrayhpdA0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                        <div className="button">Bắt đầu thiết kế</div>
+                        <Link href='/upload'><div className="button">Bắt đầu thiết kế</div></Link>
                     </div>
                 </section>
                 <section className="ss_2">

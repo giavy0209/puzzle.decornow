@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { asyncGetUser } from "store/initActions";
 import { MENU } from "./const";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 interface Header {
     menu?: { [k: string]: any }[]
 }
@@ -20,6 +21,7 @@ const Header: FC<Header> = ({ menu }) => {
     const popoverRef = useRef<any>()
     const [ShowModalLogin, setShowModalLogin] = useState(false)
     const [ShowModalSignup, setShowModalSignup] = useState(false)
+    const [ShowMenu, setShowMenu] = useState(false)
     const [ShowPopover, setShowPopover] = useState(false)
     const handleLogin = async (data: any) => {
         const res = await callAPI.post('/auth', { ...data })
@@ -75,65 +77,73 @@ const Header: FC<Header> = ({ menu }) => {
                     <button className="button highlight">Đăng ký</button>
                 </Form>
             </Modal>
-            <header>
-                <div className="menu">
-                    <ul>
-                        {
-                            MENU.map(o => <li key={o.text}>
-                                <Link href={o.link}>
-                                    <a>{o.text}</a>
-                                </Link>
-                            </li>)
-                        }
-                        {
-                            menu?.map(o => <li key={o._id}>
-                                <Link href={`/${o.type === 1 ? 'product' : 'news'}/${o.slug}`}>
-                                    <a>{o.name}</a>
-                                </Link>
-                                <ul>
-                                    {
-                                        o.child?.map(child => <li key={child._id}>
-                                            <Link href={`/${child.type === 1 ? 'product' : 'news'}/${child.slug}`}>
-                                                <a>{child.name}</a>
-                                            </Link>
-                                        </li>)
-                                    }
-                                </ul>
-                            </li>)
-                        }
-                    </ul>
-                </div>
-                {!user && <div className="profile">
-                    <div onClick={() => setShowModalLogin(true)} className="button">Đăng nhập</div>
-                    <div onClick={() => setShowModalSignup(true)} className="button highlight">Đăng ký</div>
-                </div>}
-                {
-                    user && <div ref={popoverRef} onClick={() => setShowPopover(!ShowPopover)} className="profile loged">
-                        <div className="name">{user.email}</div>
-                        <div className="icon"> <FontAwesomeIcon icon={faUser} /></div>
-                        <div className={`popover ${ShowPopover ? 'show' : ''} `}>
+            <header className={`${ShowMenu ? 'show' : ''}`}>
+                <div onClick={() => setShowMenu(!ShowMenu)} className="toggle"><AiOutlineMenu /></div>
+                <div className="container">
+                    <div onClick={()=>setShowMenu(false)} className={`mask ${ShowMenu ? 'show' : '' }`}></div>
+                    <div className={`header ${ShowMenu ? 'show' : '' }`}>
+                        <div onClick={()=>setShowMenu(false)} className="close"><AiOutlineClose /></div>
+                        <div className="menu">
                             <ul>
-                                <li>
-                                    <Link href='/cart'><a> Giỏ hàng</a></Link>
-                                </li>
-                                <li>
-                                    <Link href='/history'><a>Đơn hàng</a></Link>
-                                </li>
-                                <li>
-                                    <Link href='/profile'><a>Thông tin cá nhân</a></Link>
-                                </li>
-                                <li onClick={() => window.location.reload()}>
-                                    Đăng xuất
-                                </li>
+                                {
+                                    MENU.map(o => <li key={o.text}>
+                                        <Link href={o.link}>
+                                            <a>{o.text}</a>
+                                        </Link>
+                                    </li>)
+                                }
+                                {
+                                    menu?.map(o => <li key={o._id}>
+                                        <Link href={`/${o.type === 1 ? 'product' : 'news'}/${o.slug}`}>
+                                            <a>{o.name}</a>
+                                        </Link>
+                                        <ul>
+                                            {
+                                                o.child?.map(child => <li key={child._id}>
+                                                    <Link href={`/${child.type === 1 ? 'product' : 'news'}/${child.slug}`}>
+                                                        <a>{child.name}</a>
+                                                    </Link>
+                                                </li>)
+                                            }
+                                        </ul>
+                                    </li>)
+                                }
                             </ul>
                         </div>
+                        {!user && <div className="profile">
+                            <div onClick={() => setShowModalLogin(true)} className="button">Đăng nhập</div>
+                            <div onClick={() => setShowModalSignup(true)} className="button highlight">Đăng ký</div>
+                        </div>}
+                        {
+                            user && <div ref={popoverRef} onClick={() => setShowPopover(!ShowPopover)} className="profile loged">
+                                <div className="name">{user.email}</div>
+                                <div className="icon"> <FontAwesomeIcon icon={faUser} /></div>
+                                <div className={`popover ${ShowPopover ? 'show' : ''} `}>
+                                    <ul>
+                                        <li>
+                                            <Link href='/cart'><a> Giỏ hàng</a></Link>
+                                        </li>
+                                        <li>
+                                            <Link href='/history'><a>Đơn hàng</a></Link>
+                                        </li>
+                                        <li>
+                                            <Link href='/profile'><a>Thông tin cá nhân</a></Link>
+                                        </li>
+                                        <li onClick={() => window.location.reload()}>
+                                            Đăng xuất
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        <Link href="/cart">
+                            <a className="cart">
+                                <FaCartPlus />
+                            </a>
+                        </Link>
                     </div>
-                }
-                <Link href="/cart">
-                    <a className="cart">
-                        <FaCartPlus />
-                    </a>
-                </Link>
+
+                    </div>
             </header>
         </>
     )
