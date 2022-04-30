@@ -60,7 +60,7 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
                                             <img src={pageData.thumbnail} alt="" />
                                         </div>
                                         {
-                                            pageData.images?.map((o, index )=> <div onClick={()=>setMainImage(pageData.thumbnail)} key={o + index} className="img">
+                                            pageData.images?.map((o, index )=> <div onClick={()=>setMainImage(o)} key={o + index} className="img">
                                                 <img src={o} alt="" />
                                             </div>)
                                         }
