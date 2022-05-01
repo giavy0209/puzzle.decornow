@@ -103,28 +103,35 @@ const Cart: FC = () => {
 
     const handleFormDone = async value => {
         const items: any[] = []
+        console.log(123);
+        
         setIsLoading(true)
         for (let index = 0; index < cart.length; index++) {
             const item = cart[index];
             if (item.file) {
                 const form = new FormData()
                 form.append('file', item.file)
-                const resThumnail = await callAPI.post('upload',form)
+                const resThumnail = await callAPI.post('upload', form)
                 const thumbnail = `${STORAGE}${resThumnail.data.path}`
                 item.thumbnail = thumbnail
 
                 const form2 = new FormData()
                 form2.append('file', item.baseImage)
-                const resBaseImage = await callAPI.post('upload',form2)
+                const resBaseImage = await callAPI.post('upload', form2)
                 const baseImage = `${STORAGE}${resBaseImage.data.path}`
+                console.log(baseImage);
+
                 item.baseImage = baseImage
+                console.log(item.baseImage);
             }
+            console.log(item);
             items.push({
                 product: item._id || null,
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
-                thumbnail: item.thumbnail
+                thumbnail: item.thumbnail,
+                baseImage: item.baseImage
             })
 
         }
@@ -135,7 +142,7 @@ const Cart: FC = () => {
         })
         dispatch(actionChangeCart([]))
         setIsLoading(false)
-        
+
         toast('Đặt hàng thành công, nhân viên sẽ liên hệ với bạn sớm nhất.')
     }
     return (

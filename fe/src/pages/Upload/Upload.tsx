@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FiRotateCcw, FiRotateCw } from "react-icons/fi";
 import { SketchPicker } from 'react-color';
 import { dataURItoBlob } from "helpers/dataURIToBlob";
+import blobToBase64 from "helpers/blobToBase64";
 
 const slice = [
     {
@@ -38,6 +39,7 @@ const slice = [
 const Upload: FunctionComponent = () => {
     const dispatch = useDispatch()
     const cart = useSelector((state: any) => state.cart)
+    const base64Src = useRef<string>('')
     const [SelectedSlice, setSelectedSlice] = useState(slice[0])
     const [SelectedFrame, setSelectedFrame] = useState(1)
     const [Size, setSize] = useState({ w: 3000, h: 3000 })
@@ -268,6 +270,8 @@ const Upload: FunctionComponent = () => {
         event.persist()
         const file = event?.target?.files?.[0]
         if (!file) return
+        base64Src.current = await blobToBase64(file)
+        
         const url: string = (await readFile(file)) as string
         setImageSrc(url)
         setImageRatio(null)
@@ -316,7 +320,8 @@ const Upload: FunctionComponent = () => {
         }
     }, [downSize, upSize, handleX, handleY])
 
-    const handleAddToCart = () => {
+    const handleAddToCart =async () => {
+        
         if (!ImageSrc) return toast('Bạn chưa chọn hình ảnh')
         const url = canvas.current?.toDataURL()
         
@@ -327,7 +332,7 @@ const Upload: FunctionComponent = () => {
             cart.push({
                 _id: uuidv4(),
                 thumbnail: blobURL,
-                baseImage : dataURItoBlob(ImageSrc),
+                baseImage : dataURItoBlob(base64Src.current),
                 file,
                 price: 500000,
                 quantity: 1
