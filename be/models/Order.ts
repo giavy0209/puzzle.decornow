@@ -20,6 +20,7 @@ const OrderSchema = new Schema<Order>({
         price : {type : Number, default : 0},
         quantity : {type : Number, default : 1},
         thumbnail : {type : String, default : ''},
+        baseImage : {type : String, default : ''},
         sum : {type : Number, default : 0},
         product : {type : Schema.Types.ObjectId, ref : 'products'}
     }],

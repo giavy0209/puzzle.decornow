@@ -165,7 +165,14 @@ const Order: FC = () => {
                         key: 'thumbnail',
                         dataIndex: 'thumbnail',
                         title: 'Hình ảnh',
-                        render : img => <img src={img} />,
+                        render : (img) => <img src={img} />,
+                        width : 120
+                    },
+                    {
+                        key: 'thumbnail',
+                        dataIndex: 'thumbnail',
+                        title: 'Hình Gốc',
+                        render : (baseImage) => baseImage ? <img src={baseImage} /> : 'Không',
                         width : 120
                     },
                 ]}

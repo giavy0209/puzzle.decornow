@@ -1,6 +1,6 @@
 import { Button, Form, Input, Select } from "antd";
 import callAPI from "call";
-import { DOMAIN } from "constant";
+import { DOMAIN, STORAGE } from "constant";
 import Link from "next/link";
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
@@ -109,13 +109,15 @@ const Cart: FC = () => {
             if (item.file) {
                 const form = new FormData()
                 form.append('file', item.file)
-                const res = await callAPI.post('upload',form)
-                console.log(res);
-                
-                const thumbnail = `${DOMAIN}${res.data.path}`
-                
+                const resThumnail = await callAPI.post('upload',form)
+                const thumbnail = `${STORAGE}${resThumnail.data.path}`
                 item.thumbnail = thumbnail
-                console.log(item.thumbnail);
+
+                const form2 = new FormData()
+                form2.append('file', item.baseImage)
+                const resBaseImage = await callAPI.post('upload',form2)
+                const baseImage = `${STORAGE}${resBaseImage.data.path}`
+                item.baseImage = baseImage
             }
             items.push({
                 product: item._id || null,

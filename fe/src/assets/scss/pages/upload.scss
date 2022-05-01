@@ -41,6 +41,21 @@
             &.selected {
                 border: 2px solid #000;
             }
+            position: relative;
+            span {
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                transform: translate(-50%, 0);
+                width: 200%;
+                opacity: 0;
+                transition: 0.3s;
+            }
+            &:hover {
+                span {
+                    opacity: 1;
+                }
+            }
         }
 
         .frame_1 {
@@ -78,10 +93,21 @@
         }
 
         .frame_4 {
-            font-size: 56px;
-
-            span {
-                font-size: initial;
+            &::before {
+                content: "";
+                display: block;
+                width: 60px;
+                height: 60px;
+                margin: 0 auto;
+            }
+            position: relative;
+            .icon {
+                font-size: 56px;
+                position: absolute;
+                top: 0%;
+                left: 50%;
+                transform: translate(-50%, -0%);
+                height: 100%;
             }
         }
     }
@@ -135,7 +161,7 @@
             column-gap: 15px;
             align-items: flex-start;
 
-            >* {
+            > * {
                 width: 30%;
             }
 
@@ -172,7 +198,7 @@
                 }
             }
 
-            @media only screen and (max-width : $sm) {
+            @media only screen and (max-width: $sm) {
                 flex-wrap: wrap;
                 > * {
                     width: 100%;
@@ -186,5 +212,20 @@
 
     .button {
         width: 100%;
+    }
+    .text {
+        input {
+            border: $border;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    }
+    .color {
+        text-align: center;
+        span {
+            margin: 0 auto;
+            width: fit-content;
+        }
     }
 }

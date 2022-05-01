@@ -20,6 +20,7 @@ var OrderSchema = new mongoose_1.Schema({
             price: { type: Number, default: 0 },
             quantity: { type: Number, default: 1 },
             thumbnail: { type: String, default: '' },
+            baseImage: { type: String, default: '' },
             sum: { type: Number, default: 0 },
             product: { type: mongoose_1.Schema.Types.ObjectId, ref: 'products' }
         }],

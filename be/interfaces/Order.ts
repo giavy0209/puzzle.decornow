@@ -6,7 +6,8 @@ interface Items {
     quantity : number,
     thumbnail : string,
     sum : number,
-    product : Types.ObjectId
+    product : Types.ObjectId,
+    baseImage : string
 }
 
 export default interface Order {

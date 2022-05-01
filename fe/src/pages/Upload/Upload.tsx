@@ -1,17 +1,19 @@
 import { faEdit, faTrash, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Layout, Modal } from "components";
+import { Form, Input, Layout, Modal } from "components";
 import readFile from "helpers/readFile";
 import { ChangeEvent, CSSProperties, FunctionComponent, useCallback, useEffect, useRef, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaArrowAltCircleDown, FaArrowAltCircleLeft, FaArrowAltCircleRight, FaArrowAltCircleUp, FaTrash } from "react-icons/fa";
-import {MdCropRotate} from 'react-icons/md'
-import {AiOutlineZoomOut, AiOutlineZoomIn} from 'react-icons/ai'
+import { MdCropRotate } from 'react-icons/md'
+import { AiOutlineZoomOut, AiOutlineZoomIn } from 'react-icons/ai'
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { actionChangeCart } from "store/actions";
 import { v4 as uuidv4 } from 'uuid';
 import { FiRotateCcw, FiRotateCw } from "react-icons/fi";
+import { SketchPicker } from 'react-color';
+import { dataURItoBlob } from "helpers/dataURIToBlob";
 
 const slice = [
     {
@@ -32,6 +34,7 @@ const slice = [
     },
 ]
 
+
 const Upload: FunctionComponent = () => {
     const dispatch = useDispatch()
     const cart = useSelector((state: any) => state.cart)
@@ -40,10 +43,12 @@ const Upload: FunctionComponent = () => {
     const [Size, setSize] = useState({ w: 3000, h: 3000 })
     const [ImagePos, setImagePos] = useState({ x: 0, y: 0 })
     const [ImageRotate, setImageRotate] = useState(0)
-    const [ImageScale, setImageScale] = useState(1)
     const [ImageRatio, setImageRatio] = useState<number | null>(null)
 
     const [ImageSrc, setImageSrc] = useState<any | string>(null)
+    const [Text, setText] = useState<string>('')
+    const [TextColor, setTextColor] = useState<string>('#000')
+    const [Font, setFont] = useState<string>('Arial')
     const initialRatio = useRef<number | null>(null)
     const canvas = useRef<HTMLCanvasElement>(null)
     const ctx = useRef<CanvasRenderingContext2D | null>()
@@ -78,9 +83,8 @@ const Upload: FunctionComponent = () => {
         const percentX = Size.w / imgW;
         const percentY = Size.h / imgH
         const ratio = Math.min(percentX, percentY)
-        
-        ctxPtrn?.rotate(ImageRotate*Math.PI/180);
-        ctxPtrn?.scale(ImageScale , 1)
+
+        ctxPtrn?.rotate(ImageRotate * Math.PI / 180);
         if (!initialRatio.current) initialRatio.current = ratio
         if (ImageRatio === null) {
             setImageRatio(initialRatio.current)
@@ -88,20 +92,20 @@ const Upload: FunctionComponent = () => {
                 img,
                 0, 0,
                 imgW, imgH,
-                ImagePos.x * ImageScale, ImagePos.y,
-                imgW* initialRatio.current , imgH * initialRatio.current
+                ImagePos.x, ImagePos.y,
+                imgW * initialRatio.current, imgH * initialRatio.current
             )
         } else {
             ctxPtrn?.drawImage(
                 img,
                 0, 0,
                 imgW, imgH,
-                ImagePos.x * ImageScale, ImagePos.y,
-                imgW* ImageRatio , imgH * ImageRatio
+                ImagePos.x, ImagePos.y,
+                imgW * ImageRatio, imgH * ImageRatio
             )
         }
         return canvasPtrn
-    }, [loadImage, Size, ImagePos, ImageRatio,ImageRotate,ImageScale])
+    }, [loadImage, Size, ImagePos, ImageRatio, ImageRotate])
 
     const drawSlice = useCallback((): Promise<any> => new Promise(r => {
         const img = new Image()
@@ -117,7 +121,7 @@ const Upload: FunctionComponent = () => {
         }
     }), [SelectedSlice, Size])
 
-    useEffect(() => {
+    const DrawImage = useCallback(async () => {
         if (ctx.current) {
             ctx.current.clearRect(0, 0, Size.w, Size.h)
             ctx.current.fillStyle = '#ccc'
@@ -125,23 +129,19 @@ const Upload: FunctionComponent = () => {
             if (SelectedFrame === 0 || SelectedFrame === 1) {
                 ctx.current.fillRect(0, 0, Size.w, Size.h)
                 if (ImageSrc) {
-                    createPattern()
-                        .then(cP => {
-                            if (ctx.current) {
-                                const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                ctx.current.fillStyle = pattern
-                                ctx.current.fillRect(0, 0, Size.w, Size.h)
-                                
-                            }
-                            drawSlice()
-                                .then(cP => {
-                                    if (ctx.current) {
-                                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                        ctx.current.fillStyle = pattern
-                                        ctx.current.fillRect(0, 0, Size.w, Size.h)
-                                    }
-                                })
-                        })
+                    const cP = await createPattern()
+                    if (ctx.current) {
+                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
+                        ctx.current.fillStyle = pattern
+                        ctx.current.fillRect(0, 0, Size.w, Size.h)
+
+                    }
+                    const cP2 = await drawSlice()
+                    if (ctx.current) {
+                        const pattern: any = ctx.current.createPattern(cP2, 'no-repeat')
+                        ctx.current.fillStyle = pattern
+                        ctx.current.fillRect(0, 0, Size.w, Size.h)
+                    }
                 }
             }
             if (SelectedFrame === 2) {
@@ -155,22 +155,18 @@ const Upload: FunctionComponent = () => {
                 ctx.current.fill()
 
                 if (ImageSrc) {
-                    createPattern()
-                        .then(cP => {
-                            if (ctx.current) {
-                                const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                ctx.current.fillStyle = pattern
-                                ctx.current.fill()
-                            }
-                            drawSlice()
-                                .then(cP => {
-                                    if (ctx.current) {
-                                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                        ctx.current.fillStyle = pattern
-                                        ctx.current.fill()
-                                    }
-                                })
-                        })
+                    const cP = await createPattern()
+                    if (ctx.current) {
+                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
+                        ctx.current.fillStyle = pattern
+                        ctx.current.fill()
+                    }
+                    const cP2 = await drawSlice()
+                    if (ctx.current) {
+                        const pattern: any = ctx.current.createPattern(cP2, 'no-repeat')
+                        ctx.current.fillStyle = pattern
+                        ctx.current.fill()
+                    }
                 }
             }
             if (SelectedFrame === 3) {
@@ -187,29 +183,33 @@ const Upload: FunctionComponent = () => {
                 ctx.current.fill()
 
                 if (ImageSrc) {
-                    createPattern()
-                        .then(cP => {
-                            if (ctx.current) {
-                                const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                ctx.current.fillStyle = pattern
-                                ctx.current.fill()
-                            }
-                            drawSlice()
-                                .then(cP => {
-                                    if (ctx.current) {
-                                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
-                                        ctx.current.fillStyle = pattern
-                                        ctx.current.fill()
-                                    }
-                                })
-                        })
+                    const cP = await createPattern()
+                    if (ctx.current) {
+                        const pattern: any = ctx.current.createPattern(cP, 'no-repeat')
+                        ctx.current.fillStyle = pattern
+                        ctx.current.fill()
+                    }
+                    const cP2 = await drawSlice()
+                    if (ctx.current) {
+                        const pattern: any = ctx.current.createPattern(cP2, 'no-repeat')
+                        ctx.current.fillStyle = pattern
+                        ctx.current.fill()
+                    }
                 }
             }
             ctx.current.closePath();
+            ctx.current.beginPath();
+            ctx.current.font = "150px Arial";
+            ctx.current.fillStyle =TextColor;
+            ctx.current.textAlign = "center";
+            ctx.current.fillText(Text, Size.w / 2, Size.h * 0.75)
+            ctx.current.closePath();
         }
+    },[Size, SelectedFrame, Text,TextColor, ImageSrc, drawSlice, createPattern])
 
-
-    }, [Size, SelectedFrame, ImageSrc,drawSlice, createPattern])
+    useEffect(() => {
+        DrawImage()
+    }, [DrawImage])
 
     const handleChangeFrame = useCallback((value) => {
         setImageRatio(null)
@@ -282,26 +282,31 @@ const Upload: FunctionComponent = () => {
 
     useEffect(() => {
         const handleKey = e => {
-            e.preventDefault()
             const keyCode = e.keyCode
 
             if (keyCode === 189) {
+                e.preventDefault()
                 downSize()
             }
 
             if (keyCode === 187) {
+                e.preventDefault()
                 upSize()
             }
             if (keyCode === 39) {
+                e.preventDefault()
                 handleX(1)
             }
             if (keyCode === 37) {
+                e.preventDefault()
                 handleX(-1)
             }
             if (keyCode === 40) {
+                e.preventDefault()
                 handleY(1)
             }
             if (keyCode === 38) {
+                e.preventDefault()
                 handleY(-1)
             }
         }
@@ -314,21 +319,15 @@ const Upload: FunctionComponent = () => {
     const handleAddToCart = () => {
         if (!ImageSrc) return toast('Bạn chưa chọn hình ảnh')
         const url = canvas.current?.toDataURL()
+        
         if (url) {
-            const splitDataURI = url.split(',')
-            const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
-            const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
-
-            const ia = new Uint8Array(byteString.length)
-            for (let i = 0; i < byteString.length; i++)
-                ia[i] = byteString.charCodeAt(i)
-
-            const file = new Blob([ia], { type: mimeString })
+            const file = dataURItoBlob(url)
             const blobURL = URL.createObjectURL(file)
-
+            
             cart.push({
                 _id: uuidv4(),
                 thumbnail: blobURL,
+                baseImage : dataURItoBlob(ImageSrc),
                 file,
                 price: 500000,
                 quantity: 1
@@ -340,11 +339,11 @@ const Upload: FunctionComponent = () => {
     }
     const deleteImage = useCallback(() => {
         setImageSrc(null)
-    },[])
+    }, [])
 
     const rotate = useCallback((value) => {
         setImageRotate(_prev => _prev + value)
-    },[])
+    }, [])
     return (
         <>
             <div className="upload">
@@ -381,10 +380,10 @@ const Upload: FunctionComponent = () => {
                                                         <button onClick={downSize} className="control">
                                                             <span><AiOutlineZoomOut /></span>
                                                         </button>
-                                                        <button onClick={()=>rotate(-10)} className="control">
+                                                        <button onClick={() => rotate(-10)} className="control">
                                                             <span><FiRotateCcw /></span>
                                                         </button>
-                                                        <button onClick={()=>rotate(10)} className="control">
+                                                        <button onClick={() => rotate(10)} className="control">
                                                             <span><FiRotateCw /></span>
                                                         </button>
                                                     </div>
@@ -413,10 +412,14 @@ const Upload: FunctionComponent = () => {
                                 <div onClick={() => handleChangeFrame(0)} className={`frame_1 ${SelectedFrame === 0 ? 'selected' : ''}`}>
                                     <span>Hình chữ nhật 21x30</span>
                                 </div>
-                                <div onClick={() => handleChangeFrame(1)} className={`frame_2 ${SelectedFrame === 1 ? 'selected' : ''}`}>Hình vuông 30x30</div>
-                                <div onClick={() => handleChangeFrame(2)} className={`frame_3 ${SelectedFrame === 2 ? 'selected' : ''}`}>Hình tròn 30x30</div>
+                                <div onClick={() => handleChangeFrame(1)} className={`frame_2 ${SelectedFrame === 1 ? 'selected' : ''}`}>
+                                    <span>Hình vuông 30x30</span>
+                                </div>
+                                <div onClick={() => handleChangeFrame(2)} className={`frame_3 ${SelectedFrame === 2 ? 'selected' : ''}`}>
+                                    <span>Hình tròn 30x30</span>
+                                </div>
                                 <div onClick={() => handleChangeFrame(3)} className={`frame_4 ${SelectedFrame === 3 ? 'selected' : ''}`}>
-                                    <AiFillHeart />
+                                    <div className="icon"><AiFillHeart /></div>
                                     <span>Trái tim 27x30</span>
                                 </div>
                             </div>
@@ -429,9 +432,19 @@ const Upload: FunctionComponent = () => {
                                     </div>)
                                 }
                             </div>
+                            <div className="text mt-30">
+                                <div className="title">Nội dung trên ảnh</div>
+                                <input onChange={e => setText(e.target.value)} value={Text} type="text" className="mt-20" />
+                            </div>
+
+                            <div className="color mt-30">
+                                <div className="title">Màu chữ</div>
+                                <span ><SketchPicker color={TextColor} onChange={color => setTextColor(color.hex)} /></span>
+                            </div>
                         </div>
                     </div>
                     <div onClick={handleAddToCart} className="button mt-20">Thêm vào giỏ hàng</div>
+                    
                 </div>
             </div>
         </>
