@@ -185,9 +185,11 @@ button {
         padding-right: #{$i}px;
     }
 }
+
 .ant-image-preview-img {
     width: unset;
 }
+
 .flexbox {
     --gap-col: 30px;
     --gap-row: 30px;
@@ -197,14 +199,14 @@ button {
     column-gap: var(--gap-col);
     row-gap: var(--gap-row);
 
-    @for $i from 1 through 12 {
-        &.center {
-            justify-content: center;
-        }
+    &.center {
+        justify-content: center;
+    }
 
+    @for $i from 1 through 12 {
         &.flex#{$i} {
             .item {
-                width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
 
                 >* {
                     min-height: 100%;
@@ -214,76 +216,78 @@ button {
         }
 
         .col-#{$i} {
-            width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+            width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
         }
     }
 
     @for $i from 1 through 12 {
-        &.lg-flex#{$i} {
-            @media only screen and (max-width : 992px) {
+        @include max-lg {
+            &.lg-flex#{$i} {
                 .item {
-                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
                 }
             }
         }
     }
 
     @for $i from 1 through 12 {
-        &.md-flex#{$i} {
-            @media only screen and (max-width : 768px) {
+        @include max-md {
+            &.md-flex#{$i} {
                 .item {
-                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
                 }
             }
         }
     }
 
     @for $i from 1 through 12 {
-        &.sm-flex#{$i} {
-            @media only screen and (max-width : 576px) {
+        @include max-sm {
+            &.sm-flex#{$i} {
                 .item {
-                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
                 }
             }
         }
     }
 
     @for $i from 1 through 12 {
-        &.xs-flex#{$i} {
-            @media only screen and (max-width : 450px) {
+        @include max-xs {
+            &.xs-flex#{$i} {
                 .item {
-                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                    width: calc(1 / #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
                 }
             }
         }
     }
 
     @for $i from 1 through 12 {
-        @media only screen and (max-width : 992px) {
+        @include max-lg {
             .lg-col-#{$i} {
-                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
             }
         }
     }
 
     @for $i from 1 through 12 {
-        @media only screen and (max-width : 768px) {
+        @include max-md {
             .md-col-#{$i} {
-                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
             }
         }
     }
+
     @for $i from 1 through 12 {
-        @media only screen and (max-width : 576px) {
+        @include max-sm {
             .sm-col-#{$i} {
-                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
             }
         }
     }
+
     @for $i from 1 through 12 {
-        @media only screen and (max-width : 450px) {
+        @include max-xs {
             .xs-col-#{$i} {
-                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * 30px);
+                width: calc(1 / 12 * #{$i} * 100% - (1 - 1 / #{$i}) * var(--gap-col));
             }
         }
     }
