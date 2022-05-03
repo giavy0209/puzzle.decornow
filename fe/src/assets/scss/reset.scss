@@ -185,7 +185,9 @@ button {
         padding-right: #{$i}px;
     }
 }
-
+.ant-image-preview-img {
+    width: unset;
+}
 .flexbox {
     --gap-col: 30px;
     --gap-row: 30px;

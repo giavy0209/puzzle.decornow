@@ -1,6 +1,14 @@
 .product-detail {
     margin-top: 30px;
     .image-slice {
+        .main {
+            .hidden-zoom {
+                
+                img {
+                    width: unset;
+                }
+            }
+        }
         .slider {
             margin: 0 -15px;
             margin-top: 15px;
