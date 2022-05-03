@@ -1,4 +1,4 @@
-import { Button, Input, Modal, Select, Table } from "antd";
+import { Button, Image, Input, Modal, Select, Table } from "antd";
 import callAPI from "callAPI";
 import renderDate from "helpers/renderDate";
 import { FC, useCallback, useEffect, useState } from "react";
@@ -165,14 +165,14 @@ const Order: FC = () => {
                         key: 'thumbnail',
                         dataIndex: 'thumbnail',
                         title: 'Hình ảnh',
-                        render : (img) => <img src={img} />,
+                        render : (img) => <Image src={img} />,
                         width : 120
                     },
                     {
                         key: 'baseImage',
                         dataIndex: 'baseImage',
                         title: 'Hình Gốc',
-                        render : (baseImage) => baseImage ? <img src={baseImage} /> : 'Không',
+                        render : (baseImage) => baseImage ? <Image src={baseImage} /> : 'Không',
                         width : 120
                     },
                 ]}
