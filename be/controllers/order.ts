@@ -52,18 +52,18 @@ const order = {
         try {
             const provinces = (await fetchProvinces()).data
 
-            const findProvince = provinces.find(o => o.ProvinceID === province)?.ProvinceName
+            const findProvince = provinces.find(o => o.ProvinceID === Number(province))?.ProvinceName
             if (!findProvince) return res.send({ status: 100 })
 
             const districts = (await fetchDistricts(province)).data
-            const findDistricts = districts.find(o => o.DistrictID === district)?.DistrictName
+            const findDistricts = districts.find(o => o.DistrictID === Number(district))?.DistrictName
             if (!findDistricts) return res.send({ status: 100 })
 
             const wards = (await fetchWards(district)).data
             const findWard = await wards.find(o => o.WardCode === ward)?.WardName
             if (!findWard) return res.send({ status: 100 })
 
-            const shippingFee = (await calculateFee(district, ward)).data.total
+            const shippingFee = (await calculateFee(Number(district), ward)).data.total
 
             let orderPrice = 0
 
@@ -99,7 +99,6 @@ const order = {
 
                 items,
             })
-
             const data = await postOrder(order)
 
             res.send({ status: 1 })

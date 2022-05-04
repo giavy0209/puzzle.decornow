@@ -5,4 +5,5 @@ export {default as ProductDetail} from './ProductDetail'
 export {default as Cart} from './Cart'
 export {default as News} from './News'
 export {default as NewsDetail} from './NewsDetail'
-
+export {default as History} from './History'
+export {default as Profile} from './Profile'

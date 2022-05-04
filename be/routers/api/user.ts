@@ -15,5 +15,9 @@ router.route('/user')
         validator('body', 'email', isEmail(), isUnique(Users, 'email')),
         user.post
     )
+    .patch(
+        isUser,
+        user.patch
+    )
 
 export default router

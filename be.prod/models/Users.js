@@ -5,9 +5,22 @@ var UsersSchema = new mongoose_1.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     dob: { type: Date, },
-    address: { type: String },
     name: { type: String },
     phone: { type: String },
+    gender: { type: String },
+    province: {
+        name: { type: String },
+        id: { type: String },
+    },
+    district: {
+        name: { type: String },
+        id: { type: String },
+    },
+    ward: {
+        name: { type: String },
+        id: { type: String },
+    },
+    address: { type: String },
 }, {
     timestamps: true
 });

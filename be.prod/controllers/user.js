@@ -88,5 +88,25 @@ var user = {
             }
         });
     }); },
+    patch: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var _id, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    _id = req.body.payload._id;
+                    return [4 /*yield*/, models_1.Users.findByIdAndUpdate(_id, __assign({}, req.body))];
+                case 1:
+                    _a.sent();
+                    res.send({ status: 1 });
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_3 = _a.sent();
+                    res.send(error_3);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); },
 };
 exports.default = user;

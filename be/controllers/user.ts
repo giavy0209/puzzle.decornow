@@ -20,6 +20,15 @@ const user = {
             res.send(error)
         }
     },
+    patch: async (req: Request, res: Response) => {
+        try {
+            const {_id} = req.body.payload
+            await Users.findByIdAndUpdate(_id,{ ...req.body })
+            res.send({ status: 1 })
+        } catch (error) {
+            res.send(error)
+        }
+    },
 }
 
 export default user

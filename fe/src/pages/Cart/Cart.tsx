@@ -20,6 +20,18 @@ const Cart: FC = () => {
     const [WardSelected, setWardSelected] = useState<any>(null)
     const [Fee, setFee] = useState<any>(0)
 
+    const user = useSelector((state : any) => state.user)
+
+    useEffect(() => {
+        console.log(user);
+        
+        if(user) {
+            setProvinceSelected(user.province?.id)
+            setDistrictsSelected(user.district?.id)
+            setWardSelected(user.ward?.id)
+        }
+    },[user])
+
     useEffect(() => {
         fetchProvinces().then(res => setProvinces([...res.data]))
 
@@ -89,11 +101,9 @@ const Cart: FC = () => {
 
     useEffect(() => {
         if (ProvinceSelected && DistrictsSelected && WardSelected) {
-            calculateFee(DistrictsSelected, WardSelected)
+            calculateFee(Number(DistrictsSelected), WardSelected)
                 .then(res => {
-                    console.log(res);
                     setFee(res.data.total)
-
                 })
         }
     }, [ProvinceSelected, DistrictsSelected, WardSelected])
@@ -142,7 +152,7 @@ const Cart: FC = () => {
     return (
         <>
             <div className="cart mt-30">
-                {cart?.length && <div className="container">
+                {cart?.length ? <div className="container">
                     <div className="title pb-20">Giỏ hàng</div>
                     <div className="flexbox mt-30 ">
                         <div className="col-8 md-col-12">
@@ -194,7 +204,14 @@ const Cart: FC = () => {
                         </div>
                     </div>
                     <div className="title">Thông tin vận chuyển</div>
-                    <Form onFinish={handleFormDone} ref={formRef}>
+                    <Form 
+                    initialValues={{
+                        ...user,
+                        province : user.province?.id,
+                        district : user.district?.id,
+                        ward : user.ward?.id,
+                    }}
+                    onFinish={handleFormDone} ref={formRef}>
                         <Form.Item rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]} name={"phone"}>
                             <Input placeholder="Điện thoại" />
                         </Form.Item>
@@ -211,7 +228,7 @@ const Cart: FC = () => {
                                 filterOption={(input, option) => !!option?.children?.toString().toLowerCase().includes(input.toLowerCase())}
                             >
                                 {
-                                    Provinces.map(o => <Select.Option key={o.ProvinceID} value={o.ProvinceID} >{o.ProvinceName}</Select.Option>)
+                                    Provinces.map(o => <Select.Option key={o.ProvinceID} value={o.ProvinceID.toString()} >{o.ProvinceName}</Select.Option>)
                                 }
                             </Select>
                         </Form.Item>
@@ -225,7 +242,7 @@ const Cart: FC = () => {
                                 onChange={onChangeDistrict}
                             >
                                 {
-                                    Districts.map(o => <Select.Option key={o.DistrictID} value={o.DistrictID} >{o.DistrictName}</Select.Option>)
+                                    Districts.map(o => <Select.Option key={o.DistrictID} value={o.DistrictID.toString()} >{o.DistrictName}</Select.Option>)
                                 }
                             </Select>
                         </Form.Item>}
@@ -249,7 +266,7 @@ const Cart: FC = () => {
                         </Form.Item>
                         <Button type="primary" loading={IsLoading} htmlType="submit">Đặt hàng</Button>
                     </Form>
-                </div>}
+                </div>:null}
                 {!cart?.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Bạn chưa có sản phẩm trong giỏ hàng"> <Button type="primary"><Link href="/">Tiếp tục mua hàng</Link></Button> </Empty>}
             </div>
         </>

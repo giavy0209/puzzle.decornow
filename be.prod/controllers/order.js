@@ -109,13 +109,13 @@ var order = {
                     return [4 /*yield*/, (0, GHN_1.fetchProvinces)()];
                 case 2:
                     provinces = (_e.sent()).data;
-                    findProvince = (_b = provinces.find(function (o) { return o.ProvinceID === province; })) === null || _b === void 0 ? void 0 : _b.ProvinceName;
+                    findProvince = (_b = provinces.find(function (o) { return o.ProvinceID === Number(province); })) === null || _b === void 0 ? void 0 : _b.ProvinceName;
                     if (!findProvince)
                         return [2 /*return*/, res.send({ status: 100 })];
                     return [4 /*yield*/, (0, GHN_1.fetchDistricts)(province)];
                 case 3:
                     districts = (_e.sent()).data;
-                    findDistricts = (_c = districts.find(function (o) { return o.DistrictID === district; })) === null || _c === void 0 ? void 0 : _c.DistrictName;
+                    findDistricts = (_c = districts.find(function (o) { return o.DistrictID === Number(district); })) === null || _c === void 0 ? void 0 : _c.DistrictName;
                     if (!findDistricts)
                         return [2 /*return*/, res.send({ status: 100 })];
                     return [4 /*yield*/, (0, GHN_1.fetchWards)(district)];
@@ -126,7 +126,7 @@ var order = {
                     findWard = _e.sent();
                     if (!findWard)
                         return [2 /*return*/, res.send({ status: 100 })];
-                    return [4 /*yield*/, (0, GHN_1.calculateFee)(district, ward)];
+                    return [4 /*yield*/, (0, GHN_1.calculateFee)(Number(district), ward)];
                 case 6:
                     shippingFee = (_e.sent()).data.total;
                     orderPrice = 0;

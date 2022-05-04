@@ -31,5 +31,6 @@ var isAuth_1 = require("middleware/isAuth");
 var router = (0, express_1.Router)();
 router.route('/user')
     .get(isAuth_1.isUser, controllers_1.user.get)
-    .post((0, validator_1.default)('body', 'password', (0, validator_1.isLength)({ min: 6, max: 18, trim: true }), (0, validator_1.encript)()), (0, validator_1.default)('body', 'email', (0, validator_1.isEmail)(), (0, validator_1.isUnique)(models_1.Users, 'email')), controllers_1.user.post);
+    .post((0, validator_1.default)('body', 'password', (0, validator_1.isLength)({ min: 6, max: 18, trim: true }), (0, validator_1.encript)()), (0, validator_1.default)('body', 'email', (0, validator_1.isEmail)(), (0, validator_1.isUnique)(models_1.Users, 'email')), controllers_1.user.post)
+    .patch(isAuth_1.isUser, controllers_1.user.patch);
 exports.default = router;
