@@ -125,3 +125,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 .next
+fe/yarn.lock
+*.lock
+fe/yarn.lock
+fe/yarn.lock
+fe/package-lock.json

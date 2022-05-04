@@ -15,7 +15,7 @@ import { Footer, Header } from 'components';
 import { ToastContainer } from 'react-toastify';
 import Head from 'next/head';
 
-
+import "react-quill/dist/quill.core.css";
 let navigationPropsCache;
 
 function MyApp({ Component, pageProps, navigationProps }) {

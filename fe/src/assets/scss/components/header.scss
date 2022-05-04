@@ -175,6 +175,23 @@ header {
                         }
                     }
                 }
+                @include max-md {
+                    flex-direction: column;
+                    .icon {
+                        display: none;
+                    }
+                    .popover {
+                        position: relative;
+                        opacity: 1;
+                        top: unset;
+                        transform: translate(0 , 0);
+                        box-shadow: unset;
+                        text-align: center;
+                        &.show {
+                            top: unset;
+                        }
+                    }  
+                }
             }
         }
 

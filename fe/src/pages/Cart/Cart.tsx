@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Empty, Form, Input, Select } from "antd";
 import callAPI from "call";
 import { DOMAIN, STORAGE } from "constant";
 import Link from "next/link";
@@ -18,6 +18,7 @@ const Cart: FC = () => {
     const [DistrictsSelected, setDistrictsSelected] = useState<any>(null)
     const [Wards, setWards] = useState<any[]>([])
     const [WardSelected, setWardSelected] = useState<any>(null)
+    const [Fee, setFee] = useState<any>(0)
 
     useEffect(() => {
         fetchProvinces().then(res => setProvinces([...res.data]))
@@ -37,8 +38,6 @@ const Cart: FC = () => {
     useEffect(() => {
         if (DistrictsSelected) {
             fetchWards(DistrictsSelected).then(res => {
-                console.log(res);
-
                 setWards([...res.data])
             })
 
@@ -81,8 +80,6 @@ const Cart: FC = () => {
 
         fetchServices(value)
             .then(res => {
-                console.log(res);
-
             })
         formRef.current.setFieldsValue({
             ...formRef.current.getFieldsValue(),
@@ -95,6 +92,8 @@ const Cart: FC = () => {
             calculateFee(DistrictsSelected, WardSelected)
                 .then(res => {
                     console.log(res);
+                    setFee(res.data.total)
+
                 })
         }
     }, [ProvinceSelected, DistrictsSelected, WardSelected])
@@ -103,8 +102,6 @@ const Cart: FC = () => {
 
     const handleFormDone = async value => {
         const items: any[] = []
-        console.log(123);
-        
         setIsLoading(true)
         for (let index = 0; index < cart.length; index++) {
             const item = cart[index];
@@ -119,12 +116,9 @@ const Cart: FC = () => {
                 form2.append('file', item.baseImage)
                 const resBaseImage = await callAPI.post('upload', form2)
                 const baseImage = `${STORAGE}${resBaseImage.data.path}`
-                console.log(baseImage);
 
                 item.baseImage = baseImage
-                console.log(item.baseImage);
             }
-            console.log(item);
             items.push({
                 product: item._id || null,
                 name: item.name,
@@ -148,20 +142,20 @@ const Cart: FC = () => {
     return (
         <>
             <div className="cart mt-30">
-                <div className="container">
+                {cart?.length && <div className="container">
                     <div className="title pb-20">Giỏ hàng</div>
-                    <div className="flexbox mt-30">
-                        <div className="col-8">
+                    <div className="flexbox mt-30 ">
+                        <div className="col-8 md-col-12">
                             <div className="cart-items">
                                 {
                                     cart.map(o => <div key={o._id} className="item">
-                                        <div className="flexbox">
-                                            <div className="col-4">
+                                        <div className="flexbox md-gap15 sm-gap8">
+                                            <div className="col-4 sm-col-6 ">
                                                 <div className="img">
                                                     <img src={o.thumbnail} alt="" />
                                                 </div>
                                             </div>
-                                            <div className="col-8">
+                                            <div className="col-8 sm-col-6 ">
                                                 <div className="info">
                                                     <div onClick={() => handleDelete(o)} className="delete"><FaTrash /> </div>
                                                     <div className="name">
@@ -188,9 +182,10 @@ const Cart: FC = () => {
 
                             </div>
                         </div>
-                        <div className="col-4">
+                        <div className="col-4 md-col-12">
                             <div className="check-out">
                                 <div className="sum">Tạm tính: <span>{cart.reduce((prev, curr) => ({ sum: prev.sum + (curr.quantity * curr.price) }), { sum: 0 }).sum.toLocaleString()}đ</span></div>
+                                <div className="sum">Phí vận chuyển: <span>{Fee.toLocaleString()}đ</span></div>
                                 <div className="button">Thanh toán</div>
                                 <div className="return">
                                     <Link href={'/'}>Tiếp tục mua sắm</Link>
@@ -254,7 +249,8 @@ const Cart: FC = () => {
                         </Form.Item>
                         <Button type="primary" loading={IsLoading} htmlType="submit">Đặt hàng</Button>
                     </Form>
-                </div>
+                </div>}
+                {!cart?.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Bạn chưa có sản phẩm trong giỏ hàng"> <Button type="primary"><Link href="/">Tiếp tục mua hàng</Link></Button> </Empty>}
             </div>
         </>
     )

@@ -50,7 +50,7 @@
                         border-top: $border;
                         border-bottom: $border;
                         padding: 0 10px;
-                        flex: 1;
+                        width: 100%;
                     }
                 }
             }
@@ -81,5 +81,8 @@
             cursor: pointer;
             text-transform: uppercase;
         }
+    }
+    @include max-md {
+        
     }
 }

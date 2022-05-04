@@ -10,7 +10,6 @@
 
     #canvas {
         width: 100%;
-        max-width: 500px;
         margin: 0 auto;
 
         canvas {
@@ -198,7 +197,7 @@
                 }
             }
 
-            @media only screen and (max-width: $sm) {
+            @include max-sm {
                 flex-wrap: wrap;
                 > * {
                     width: 100%;

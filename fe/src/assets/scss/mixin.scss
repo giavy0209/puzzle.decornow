@@ -1,28 +1,109 @@
+@mixin max-xxl {
+    @media only screen and (min-width : $lg) {
+        @content
+    }
+}
+
+;
+
 @mixin max-lg {
     @media only screen and (max-width : $lg) {
         @content
     }
-};
+}
+
+;
+
 @mixin max-md {
     @media only screen and (max-width : $md) {
         @content
     }
-};
+}
+
+;
+
 @mixin max-sm {
     @media only screen and (max-width : $sm) {
         @content
     }
-};
+}
+
+;
+
 @mixin max-xs {
     @media only screen and (max-width : $xs) {
         @content
     }
-};
+}
+
+;
+
+@function isEmpty ($string) {
+    @if $string !="" {
+        @return true;
+    }
+
+    @else {
+        @return false;
+    }
+}
+
+;
+
+@mixin calcWidth ($i, $preflix, $size) {
+    @if($size) {
+        @media only screen and (max-width : #{$size}) {
+            &.#{$preflix}flex#{$i} {
+                .item {
+                    width: calc(1 / #{$i} * 100% - var(--gap-col));
+                }
+            }
+
+            .#{$preflix}col-#{$i} {
+                width :calc(1 / 12 * #{$i} * 100% - var(--gap-col))
+            }
+        }
+    }
+
+    @else {
+        &.flex#{$i} {
+            .item {
+                width: calc(1 / #{$i} * 100% - var(--gap-col));
+            }
+        }
+
+        .col-#{$i} {
+            width :calc(1 / 12 * #{$i} * 100% - var(--gap-col))
+        }
+    }
+
+}
+
+@mixin calcGap ($i, $preflix, $size) {
+    @if($size) {
+        @media only screen and (max-width : #{$size}) {
+            &.#{$preflix}gap#{$i} {
+                --gap-col : #{$i}px;
+                --gap-row : #{$i}px;
+            }
+        }
+    }
+
+    @else {
+        &.gap#{$i} {
+            --gap-col: #{$i}px;
+            --gap-row: #{$i}px;
+        }
+    }
+
+}
+
 @mixin centerA {
     top: 50%;
     left: 50%;
-    transform: translate(-50% , -50%);
+    transform: translate(-50%, -50%);
 }
+
 @mixin centerF {
     justify-content: center;
     align-items: center;

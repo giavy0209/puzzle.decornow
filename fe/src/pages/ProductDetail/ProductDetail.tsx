@@ -14,9 +14,6 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
     const dispatch = useDispatch()
     const cart = useSelector((state: any) => state.cart)
     const [Visible, setVisible] = useState(false)
-    useEffect(() => {
-        console.log(cart);
-    }, [cart])
 
     const [Quantity, setQuantity] = useState(1)
     const [MainImage, setMainImage] = useState(pageData.thumbnail)
@@ -45,7 +42,6 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
         dispatch(actionChangeCart([...cart]))
         toast(`Đã thêm ${Quantity} sản phẩm vào giỏ hàng`)
     }
-    console.log(pageData?.images);
     
     return (
         <>
@@ -110,7 +106,7 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
                             </div>
                         </div>
                         <div className="col-12">
-                            <div dangerouslySetInnerHTML={{ __html: pageData.content }} className="content"></div>
+                            <div dangerouslySetInnerHTML={{ __html: pageData.content }} className="content ql-editor"></div>
                         </div>
                     </div>
                 </div>

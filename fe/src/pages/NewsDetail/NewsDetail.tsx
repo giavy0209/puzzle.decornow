@@ -13,7 +13,7 @@ const NewsDetail: FC<NewsDetail> = ({ pageData }) => {
                     <h1 className="title">{pageData.name}</h1>
                     <div className="create-date">{renderDate({ date: pageData.createdAt })}</div>
                     <div className="col-12">
-                        <div dangerouslySetInnerHTML={{ __html: pageData.content }} className="content"></div>
+                        <div dangerouslySetInnerHTML={{ __html: pageData.content }} className="content ql-editor"></div>
                     </div>
                 </div>
             </div>
