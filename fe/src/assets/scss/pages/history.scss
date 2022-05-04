@@ -1,0 +1,22 @@
+.history {
+    .title {
+        padding-bottom: 10px;
+        border-bottom: $border;
+    }
+    .orders {
+        .order {
+            padding: 20px 0;
+            .title {
+                border: none;
+            }
+            +.order {
+                border-top: $border;
+            }
+            .list {
+                > * {
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

@@ -1,14 +1,13 @@
 import callAPI from 'call'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import {History} from 'pages'
+import { History } from 'pages'
 const App: NextPage = () => {
-  
+
   return (
     <>
-    <History/>
+      <History />
     </>
   )
 }
-
 export default App

@@ -1,11 +1,15 @@
 import { Router } from "express";
 import {order} from "controllers";
-import { isAdminAny } from "middleware/isAuth";
+import { isAdminAny, isUserOrNot } from "middleware/isAuth";
 const router = Router()
 
 router.route('/order')
-    .get(order.get)
+    .get(
+        isUserOrNot,
+        order.get,
+    )
     .post(
+        isUserOrNot,
         order.post
     )
     .patch(

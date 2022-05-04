@@ -8,7 +8,12 @@ import { postOrder } from 'services/sapo'
 const order = {
     get: async (req: Request, res: Response) => {
         const { skip, limit, status ,sort,item} = req.query
+        const {_id} = req.body.payload
         const query: { [k: string]: any } = {}
+
+        if(_id && isValidObjectId(_id)) {
+            query.user = _id
+        }
         if (status && status !== '-1') {
             query.status = Number(status)
         }
@@ -35,6 +40,7 @@ const order = {
             query,
             sort : _sort,
         })
+        
         res.send({ status: 1, ...result })
     },
     post: async (req: Request, res: Response) => {
