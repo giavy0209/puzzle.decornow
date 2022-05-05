@@ -24,12 +24,14 @@ const Cart: FC = () => {
 
     useEffect(() => {
         if (user) {
-            formRef.current.setFieldsValue({
-                ...user,
-                province: user.province?.id,
-                district: user.district?.id,
-                ward: user.ward?.id,
-            })
+            if(formRef.current) {
+                formRef.current.setFieldsValue({
+                    ...user,
+                    province: user.province?.id,
+                    district: user.district?.id,
+                    ward: user.ward?.id,
+                })
+            }
         }
     }, [user])
 
