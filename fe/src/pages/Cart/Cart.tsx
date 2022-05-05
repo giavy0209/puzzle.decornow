@@ -20,17 +20,18 @@ const Cart: FC = () => {
     const [WardSelected, setWardSelected] = useState<any>(null)
     const [Fee, setFee] = useState<any>(0)
 
-    const user = useSelector((state : any) => state.user)
+    const user = useSelector((state: any) => state.user)
 
     useEffect(() => {
-        console.log(user);
-        
-        if(user) {
-            setProvinceSelected(user.province?.id)
-            setDistrictsSelected(user.district?.id)
-            setWardSelected(user.ward?.id)
+        if (user) {
+            formRef.current.setFieldsValue({
+                ...user,
+                province: user.province?.id,
+                district: user.district?.id,
+                ward: user.ward?.id,
+            })
         }
-    },[user])
+    }, [user])
 
     useEffect(() => {
         fetchProvinces().then(res => setProvinces([...res.data]))
@@ -204,14 +205,14 @@ const Cart: FC = () => {
                         </div>
                     </div>
                     <div className="title">Thông tin vận chuyển</div>
-                    <Form 
-                    initialValues={{
-                        ...user,
-                        province : user.province?.id,
-                        district : user.district?.id,
-                        ward : user.ward?.id,
-                    }}
-                    onFinish={handleFormDone} ref={formRef}>
+                    <Form
+                        initialValues={{
+                            ...user,
+                            province: user.province?.id,
+                            district: user.district?.id,
+                            ward: user.ward?.id,
+                        }}
+                        onFinish={handleFormDone} ref={formRef}>
                         <Form.Item rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]} name={"phone"}>
                             <Input placeholder="Điện thoại" />
                         </Form.Item>
@@ -266,7 +267,7 @@ const Cart: FC = () => {
                         </Form.Item>
                         <Button type="primary" loading={IsLoading} htmlType="submit">Đặt hàng</Button>
                     </Form>
-                </div>:null}
+                </div> : null}
                 {!cart?.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Bạn chưa có sản phẩm trong giỏ hàng"> <Button type="primary"><Link href="/">Tiếp tục mua hàng</Link></Button> </Empty>}
             </div>
         </>
