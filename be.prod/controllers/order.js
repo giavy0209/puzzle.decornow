@@ -58,16 +58,15 @@ var services_1 = require("services");
 var sapo_1 = require("services/sapo");
 var order = {
     get: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, skip, limit, status, sort, item, _id, query, _sort, result;
-        var _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var _a, skip, limit, status, sort, item, payload, query, _sort, result;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     _a = req.query, skip = _a.skip, limit = _a.limit, status = _a.status, sort = _a.sort, item = _a.item;
-                    _id = ((_b = req.body) === null || _b === void 0 ? void 0 : _b.payload)._id;
+                    payload = req.body.payload;
                     query = {};
-                    if (_id && (0, mongoose_1.isValidObjectId)(_id)) {
-                        query.user = _id;
+                    if (payload && payload._id && (0, mongoose_1.isValidObjectId)(payload._id)) {
+                        query.user = payload._id;
                     }
                     if (status && status !== '-1') {
                         query.status = Number(status);
@@ -95,7 +94,7 @@ var order = {
                             sort: _sort,
                         })];
                 case 1:
-                    result = _c.sent();
+                    result = _b.sent();
                     res.send(__assign({ status: 1 }, result));
                     return [2 /*return*/];
             }

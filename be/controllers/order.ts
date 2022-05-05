@@ -8,11 +8,11 @@ import { postOrder } from 'services/sapo'
 const order = {
     get: async (req: Request, res: Response) => {
         const { skip, limit, status ,sort,item} = req.query
-        const {_id} = req.body?.payload
+        const payload = req.body.payload
         const query: { [k: string]: any } = {}
 
-        if(_id && isValidObjectId(_id)) {
-            query.user = _id
+        if(payload && payload._id && isValidObjectId(payload._id)) {
+            query.user = payload._id
         }
         if (status && status !== '-1') {
             query.status = Number(status)
