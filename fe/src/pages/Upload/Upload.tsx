@@ -50,7 +50,6 @@ const Upload: FunctionComponent = () => {
     const [ImageSrc, setImageSrc] = useState<any | string>(null)
     const [Text, setText] = useState<string>('')
     const [TextColor, setTextColor] = useState<string>('#000')
-    const [Font, setFont] = useState<string>('Arial')
     const initialRatio = useRef<number | null>(null)
     const canvas = useRef<HTMLCanvasElement>(null)
     const ctx = useRef<CanvasRenderingContext2D | null>()
@@ -379,10 +378,10 @@ const Upload: FunctionComponent = () => {
                                                         <button onClick={deleteImage} className="control">
                                                             <span><FaTrash /></span>
                                                         </button>
-                                                        <button onClick={upSize} className="control">
+                                                        <button onMouseDown={upSize} className="control">
                                                             <span><AiOutlineZoomIn /></span>
                                                         </button>
-                                                        <button onClick={downSize} className="control">
+                                                        <button onMouseDown={downSize} className="control">
                                                             <span><AiOutlineZoomOut /></span>
                                                         </button>
                                                         <button onClick={() => rotate(-10)} className="control">

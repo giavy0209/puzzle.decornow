@@ -24,6 +24,10 @@ const Cart: FC = () => {
 
     useEffect(() => {
         if (user) {
+            
+            setProvinceSelected(user.province?.id)
+            setDistrictsSelected(user.district?.id)
+            setWardSelected(user.ward?.id)
             if(formRef.current) {
                 formRef.current.setFieldsValue({
                     ...user,
