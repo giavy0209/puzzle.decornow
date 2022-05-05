@@ -3,7 +3,7 @@ import { User } from 'interfaces'
 
 const UsersSchema = new Schema<User>({
     email : {type : String, required : true,unique : true},
-    password : {type : String, required : true},
+    password : {type : String},
     dob : {type : Date,},
     name : {type : String},
     phone : {type : String},
@@ -21,6 +21,10 @@ const UsersSchema = new Schema<User>({
         id : {type : String},
     },
     address : {type : String},
+    isFB : {type : Boolean, default : false},
+    isGoogle : {type : Boolean, default : false},
+    fbId : {type : String},
+    ggId : {type : String},
 }, {
     timestamps: true
 })

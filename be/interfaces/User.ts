@@ -19,4 +19,8 @@ export default interface User {
         id : string,
         name : string,
     },
+    isFB : boolean,
+    isGoogle : boolean,
+    fbId : string,
+    ggId : string,
 }

@@ -13,7 +13,7 @@ router.route('/auth-admin')
 
 router.route('/auth')
         .post(
-            validator('body' , 'email' , isEmail(), isExist(Users , 'email')),
+            validator('body' , 'email' , isEmail()),
             auth.userAuth
         )
 

@@ -1,5 +1,5 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { FaCartArrowDown, FaCartPlus, FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaCartPlus } from 'react-icons/fa';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import callAPI from "call";
@@ -12,6 +12,10 @@ import { toast } from "react-toastify";
 import { asyncGetUser } from "store/initActions";
 import { MENU } from "./const";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
+import { FB_ID, GG_ID } from "constant";
+
 interface Header {
     menu?: { [k: string]: any }[]
 }
@@ -57,7 +61,25 @@ const Header: FC<Header> = ({ menu }) => {
             window.removeEventListener('click', toggle)
         }
     }, [])
+    const responseFacebook = value => {
+        handleLogin({ email: value.email, isFB: true, name: value.name, id: value.id })
+    }
 
+    const responseGoogle = value => {
+        if (value.error) {
+            return toast('Đăng nhập bằng google không thành công')
+        }
+
+        const email = value.profileObj.email
+        const name = (value?.profileObj?.familyName || '') + (value?.profileObj?.givenName || '')
+        const id = value.googleId
+        handleLogin({
+            email,
+            name,
+            id,
+            isGoogle: true
+        })
+    }
     return (
         <>
             <Modal show={ShowModalLogin} onClose={() => setShowModalLogin(false)} >
@@ -66,6 +88,20 @@ const Header: FC<Header> = ({ menu }) => {
                     <Input name="email" placeholder="Email" />
                     <Input name="password" type="password" placeholder="Mật khấu" />
                     <button className="button highlight">Đăng nhập</button>
+                    <FacebookLogin
+                        appId={FB_ID}
+                        autoLoad={false}
+                        fields="name,email,picture"
+                        callback={responseFacebook} />
+
+                    <div className="google-login">
+                        <GoogleLogin
+                            clientId={GG_ID}
+                            buttonText="LOGIN WITH GOOGLE "
+                            onSuccess={responseGoogle}
+                            onFailure={responseGoogle}
+                        />
+                    </div>
                 </Form>
             </Modal>
             <Modal show={ShowModalSignup} onClose={() => setShowModalSignup(false)} >
@@ -80,9 +116,9 @@ const Header: FC<Header> = ({ menu }) => {
             <header className={`${ShowMenu ? 'show' : ''}`}>
                 <div onClick={() => setShowMenu(!ShowMenu)} className="toggle"><AiOutlineMenu /></div>
                 <div className="container">
-                    <div onClick={()=>setShowMenu(false)} className={`mask ${ShowMenu ? 'show' : '' }`}></div>
-                    <div className={`header ${ShowMenu ? 'show' : '' }`}>
-                        <div onClick={()=>setShowMenu(false)} className="close"><AiOutlineClose /></div>
+                    <div onClick={() => setShowMenu(false)} className={`mask ${ShowMenu ? 'show' : ''}`}></div>
+                    <div className={`header ${ShowMenu ? 'show' : ''}`}>
+                        <div onClick={() => setShowMenu(false)} className="close"><AiOutlineClose /></div>
                         <div className="menu">
                             <ul>
                                 {
@@ -129,7 +165,10 @@ const Header: FC<Header> = ({ menu }) => {
                                         <li>
                                             <Link href='/profile'><a>Thông tin cá nhân</a></Link>
                                         </li>
-                                        <li onClick={() => window.location.reload()}>
+                                        <li onClick={() => {
+                                            storage.clearToken()
+                                            window.open('/', "_self")
+                                        }}>
                                             Đăng xuất
                                         </li>
                                     </ul>
@@ -143,7 +182,7 @@ const Header: FC<Header> = ({ menu }) => {
                         </Link>
                     </div>
 
-                    </div>
+                </div>
             </header>
         </>
     )

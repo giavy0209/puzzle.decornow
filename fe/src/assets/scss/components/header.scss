@@ -240,5 +240,25 @@ header {
         }
     }
 
+    
+}
 
+.kep-login-facebook.metro {
+    font-size: $nomal-size;
+    font-weight: 500;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 5px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.google-login {
+    button {
+        padding: 5px;
+        display: flex !important;
+        margin:  10px auto;
+        div,span {
+            padding: 5px !important;
+        }
+    }
 }

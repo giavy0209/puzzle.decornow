@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose_1 = require("mongoose");
 var UsersSchema = new mongoose_1.Schema({
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: { type: String },
     dob: { type: Date, },
     name: { type: String },
     phone: { type: String },
@@ -21,6 +21,10 @@ var UsersSchema = new mongoose_1.Schema({
         id: { type: String },
     },
     address: { type: String },
+    isFB: { type: Boolean, default: false },
+    isGoogle: { type: Boolean, default: false },
+    fbId: { type: String },
+    ggId: { type: String },
 }, {
     timestamps: true
 });

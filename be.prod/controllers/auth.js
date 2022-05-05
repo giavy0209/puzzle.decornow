@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = require("bcrypt");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var models_1 = require("models");
 var auth = {
     adminAuth: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var _a, username, password, validPassword, token;
@@ -60,20 +61,52 @@ var auth = {
         });
     }); },
     userAuth: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, email, password, validPassword, token;
+        var _a, email, password, isFB, name_1, id, isGoogle, findUser, token, validPassword, error_1;
         return __generator(this, function (_b) {
-            try {
-                _a = req.body, email = _a.email, password = _a.password;
-                validPassword = (0, bcrypt_1.compareSync)(password, email.password);
-                if (!validPassword)
-                    return [2 /*return*/, res.send({ status: 100 })];
-                token = jsonwebtoken_1.default.sign({ _id: email._id }, 'userToken');
-                res.send({ status: 1, token: token });
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 9, , 10]);
+                    _a = req.body, email = _a.email, password = _a.password, isFB = _a.isFB, name_1 = _a.name, id = _a.id, isGoogle = _a.isGoogle;
+                    return [4 /*yield*/, models_1.Users.findOne({ email: email })];
+                case 1:
+                    findUser = _b.sent();
+                    token = void 0;
+                    if (!isFB) return [3 /*break*/, 4];
+                    if (!!findUser) return [3 /*break*/, 3];
+                    return [4 /*yield*/, models_1.Users.create({ email: email, name: name_1, isFB: isFB, fbId: id })];
+                case 2:
+                    findUser = _b.sent();
+                    _b.label = 3;
+                case 3:
+                    token = jsonwebtoken_1.default.sign({ _id: findUser._id }, 'userToken');
+                    return [3 /*break*/, 8];
+                case 4:
+                    if (!isGoogle) return [3 /*break*/, 7];
+                    if (!!findUser) return [3 /*break*/, 6];
+                    return [4 /*yield*/, models_1.Users.create({ email: email, name: name_1, isGoogle: isGoogle, ggId: id })];
+                case 5:
+                    findUser = _b.sent();
+                    _b.label = 6;
+                case 6:
+                    token = jsonwebtoken_1.default.sign({ _id: findUser._id }, 'userToken');
+                    return [3 /*break*/, 8];
+                case 7:
+                    if (!findUser)
+                        return [2 /*return*/, res.send({ status: 100 })];
+                    validPassword = (0, bcrypt_1.compareSync)(password, email.password);
+                    if (!validPassword)
+                        return [2 /*return*/, res.send({ status: 100 })];
+                    token = jsonwebtoken_1.default.sign({ _id: findUser._id }, 'userToken');
+                    _b.label = 8;
+                case 8:
+                    res.send({ status: 1, token: token });
+                    return [3 /*break*/, 10];
+                case 9:
+                    error_1 = _b.sent();
+                    res.send(error_1);
+                    return [3 /*break*/, 10];
+                case 10: return [2 /*return*/];
             }
-            catch (error) {
-                res.send(error);
-            }
-            return [2 /*return*/];
         });
     }); },
 };

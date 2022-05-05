@@ -31,5 +31,5 @@ var router = (0, express_1.Router)();
 router.route('/auth-admin')
     .post((0, validator_1.default)('body', 'username password', (0, validator_1.isLength)({ min: 6, max: 18, trim: true })), (0, validator_1.default)('body', 'username', (0, validator_1.isExist)(models_1.Admins, 'username')), controllers_1.auth.adminAuth);
 router.route('/auth')
-    .post((0, validator_1.default)('body', 'email', (0, validator_1.isEmail)(), (0, validator_1.isExist)(models_1.Users, 'email')), controllers_1.auth.userAuth);
+    .post((0, validator_1.default)('body', 'email', (0, validator_1.isEmail)()), controllers_1.auth.userAuth);
 exports.default = router;
