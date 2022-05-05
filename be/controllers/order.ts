@@ -8,7 +8,7 @@ import { postOrder } from 'services/sapo'
 const order = {
     get: async (req: Request, res: Response) => {
         const { skip, limit, status ,sort,item} = req.query
-        const {_id} = req.body.payload
+        const {_id} = req.body?.payload
         const query: { [k: string]: any } = {}
 
         if(_id && isValidObjectId(_id)) {
