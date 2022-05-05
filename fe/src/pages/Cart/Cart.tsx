@@ -205,14 +205,7 @@ const Cart: FC = () => {
                         </div>
                     </div>
                     <div className="title">Thông tin vận chuyển</div>
-                    <Form
-                        initialValues={{
-                            ...user,
-                            province: user.province?.id,
-                            district: user.district?.id,
-                            ward: user.ward?.id,
-                        }}
-                        onFinish={handleFormDone} ref={formRef}>
+                    <Form onFinish={handleFormDone} ref={formRef}>
                         <Form.Item rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]} name={"phone"}>
                             <Input placeholder="Điện thoại" />
                         </Form.Item>
