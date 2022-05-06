@@ -201,12 +201,12 @@ const Upload: FunctionComponent = () => {
             ctx.current.closePath();
             ctx.current.beginPath();
             ctx.current.font = "150px Arial";
-            ctx.current.fillStyle =TextColor;
+            ctx.current.fillStyle = TextColor;
             ctx.current.textAlign = "center";
             ctx.current.fillText(Text, Size.w / 2, Size.h * 0.75)
             ctx.current.closePath();
         }
-    },[Size, SelectedFrame, Text,TextColor, ImageSrc, drawSlice, createPattern])
+    }, [Size, SelectedFrame, Text, TextColor, ImageSrc, drawSlice, createPattern])
 
     useEffect(() => {
         DrawImage()
@@ -244,13 +244,13 @@ const Upload: FunctionComponent = () => {
 
     const downSize = useCallback(() => {
         if (ImageRatio && initialRatio.current) {
-            setImageRatio(ImageRatio - initialRatio.current / 50)
+            setImageRatio(ImageRatio - initialRatio.current / 13)
         }
     }, [ImageRatio])
 
     const upSize = useCallback(() => {
         if (ImageRatio && initialRatio.current) {
-            setImageRatio(ImageRatio + initialRatio.current / 50)
+            setImageRatio(ImageRatio + initialRatio.current / 13)
         }
     }, [ImageRatio])
 
@@ -270,7 +270,7 @@ const Upload: FunctionComponent = () => {
         const file = event?.target?.files?.[0]
         if (!file) return
         base64Src.current = await blobToBase64(file)
-        
+
         const url: string = (await readFile(file)) as string
         setImageSrc(url)
         setImageRatio(null)
@@ -319,19 +319,19 @@ const Upload: FunctionComponent = () => {
         }
     }, [downSize, upSize, handleX, handleY])
 
-    const handleAddToCart =async () => {
-        
+    const handleAddToCart = async () => {
+
         if (!ImageSrc) return toast('Bạn chưa chọn hình ảnh')
         const url = canvas.current?.toDataURL()
-        
+
         if (url) {
             const file = dataURItoBlob(url)
             const blobURL = URL.createObjectURL(file)
-            
+
             cart.push({
                 _id: uuidv4(),
                 thumbnail: blobURL,
-                baseImage : dataURItoBlob(base64Src.current),
+                baseImage: dataURItoBlob(base64Src.current),
                 file,
                 price: 500000,
                 quantity: 1
@@ -354,12 +354,12 @@ const Upload: FunctionComponent = () => {
                 <div className="container">
                     <div className="title">THIẾT KẾ BỘ XẾP HÌNH GỖ CỦA RIÊNG BẠN</div>
                     <div className="flexbox mt-30">
-                        <div className="col-6 lg-col-12">
+                        <div className="col-7 lg-col-12">
                             <div id="canvas">
                                 <canvas ref={canvas}></canvas>
                             </div>
                         </div>
-                        <div className="col-6 lg-col-12">
+                        <div className="col-5 lg-col-12">
                             <div className="upload">
                                 {
                                     !ImageSrc ?
@@ -367,7 +367,7 @@ const Upload: FunctionComponent = () => {
                                             <label htmlFor="upload">
                                                 Tải hình lên
                                             </label>
-                                            <input onChange={handleChangeImage} type="file" name="" id="upload" />
+                                            <input accept="image/png, image/jpeg" onChange={handleChangeImage} type="file" name="" id="upload" />
                                         </>
                                         :
                                         <>
@@ -438,17 +438,43 @@ const Upload: FunctionComponent = () => {
                             </div>
                             <div className="text mt-30">
                                 <div className="title">Nội dung trên ảnh</div>
-                                <input onChange={e => setText(e.target.value)} value={Text} type="text" className="mt-20" />
-                            </div>
+                                <div className="flexbox gap15">
+                                    <div className="col-7">
+                                        <input onChange={e => setText(e.target.value)} value={Text} type="text" className="mt-20" />
+                                        <div className="flexbox flex3 mt-20">
+                                            <div className="item">
+                                                <div className="font"></div>
+                                            </div>
 
-                            <div className="color mt-30">
-                                <div className="title">Màu chữ</div>
-                                <span ><SketchPicker color={TextColor} onChange={color => setTextColor(color.hex)} /></span>
+                                            <div className="item">
+                                                <div className="font"></div>
+                                            </div>
+
+                                            <div className="item">
+                                                <div className="font"></div>
+                                            </div>
+
+                                            <div className="item">
+                                                <div className="font"></div>
+                                            </div>
+
+                                            <div className="item">
+                                                <div className="font"></div>
+                                            </div>
+
+                                            <div className="item">
+                                                <div className="font"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-5 mt-20"><span ><SketchPicker color={TextColor} onChange={color => setTextColor(color.hex)} /></span></div>
+                                </div>
                             </div>
+                            <div onClick={handleAddToCart} className="button mt-20">Thêm vào giỏ hàng</div>
+
                         </div>
                     </div>
-                    <div onClick={handleAddToCart} className="button mt-20">Thêm vào giỏ hàng</div>
-                    
+
                 </div>
             </div>
         </>

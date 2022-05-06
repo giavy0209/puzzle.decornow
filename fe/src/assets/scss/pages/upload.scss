@@ -219,12 +219,27 @@
             padding: 10px;
             border-radius: 5px;
         }
-    }
-    .color {
-        text-align: center;
-        span {
-            margin: 0 auto;
-            width: fit-content;
+        .flexbox {
+            .title {
+                padding: 0;
+                border: none;
+            }
+            span {
+                margin: 0 auto;
+                width: fit-content;
+                > * {
+                    width: 100% !important;
+                }
+                .sketch-picker  {
+                    .flexbox-fix:last-child {
+                        display: none !important;
+                    }
+                }
+            }
+            .font {
+                border: $border;
+                padding: 20px;
+            }
         }
     }
 }

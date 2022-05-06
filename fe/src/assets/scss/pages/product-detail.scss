@@ -2,8 +2,13 @@
     margin-top: 30px;
     .image-slice {
         .main {
+            .ant-image {
+                width: 100%;
+                img {
+                    width: 100%;
+                }
+            }
             .hidden-zoom {
-                
                 img {
                     width: unset;
                 }
@@ -12,11 +17,14 @@
         .slider {
             margin: 0 -15px;
             margin-top: 15px;
-            .img {
+            .slide {
                 padding: 0 15px;
-                cursor: pointer;
-                width: 100%;
-                
+                .img {
+                    aspect-ratio: 1;
+                    position: relative;
+                    cursor: pointer;
+                    width: 100%;
+                }
             }
         }
     }
@@ -31,6 +39,8 @@
             font-size: $large-size;
             font-weight: 600;
             padding: 10px 0;
+            text-align: center;
+            color: #ee4d2d;
         }
         .description {
             text-align: center;
@@ -55,7 +65,7 @@
                     border-top: $border;
                     border-bottom: $border;
                     padding: 0 10px;
-                    flex: 1;
+                    width: 100%;
                 }
             }
         }

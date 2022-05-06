@@ -162,7 +162,7 @@ const Cart: FC = () => {
                 {cart?.length ? <div className="container">
                     <div className="title pb-20">Giỏ hàng</div>
                     <div className="flexbox mt-30 ">
-                        <div className="col-8 md-col-12">
+                        <div className="col-12 md-col-12">
                             <div className="cart-items">
                                 {
                                     cart.map(o => <div key={o._id} className="item">
@@ -199,7 +199,7 @@ const Cart: FC = () => {
 
                             </div>
                         </div>
-                        <div className="col-4 md-col-12">
+                        {/* <div className="col-4 md-col-12">
                             <div className="check-out">
                                 <div className="sum">Tạm tính: <span>{cart.reduce((prev, curr) => ({ sum: prev.sum + (curr.quantity * curr.price) }), { sum: 0 }).sum.toLocaleString()}đ</span></div>
                                 <div className="sum">Phí vận chuyển: <span>{Fee.toLocaleString()}đ</span></div>
@@ -208,7 +208,7 @@ const Cart: FC = () => {
                                     <Link href={'/'}>Tiếp tục mua sắm</Link>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="title">Thông tin vận chuyển</div>
                     <Form onFinish={handleFormDone} ref={formRef}>
