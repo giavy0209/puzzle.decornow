@@ -228,7 +228,7 @@
                 margin: 0 auto;
                 width: fit-content;
                 > * {
-                    width: 100% !important;
+                    width: unset !important;
                 }
                 .sketch-picker  {
                     .flexbox-fix:last-child {

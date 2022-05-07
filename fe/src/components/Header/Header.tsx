@@ -62,6 +62,8 @@ const Header: FC<Header> = ({ menu }) => {
         }
     }, [])
     const responseFacebook = value => {
+        console.log(value);
+        
         handleLogin({ email: value.email, isFB: true, name: value.name, id: value.id })
     }
 

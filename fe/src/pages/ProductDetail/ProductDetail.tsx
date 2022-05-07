@@ -48,7 +48,7 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
             <div className="product-detail">
                 <div className="container">
                     <div className="flexbox">
-                        <div className="col-6 md-col-6 sm-col-12">
+                        <div className="col-4 md-col-6 sm-col-12">
                             <div className="image-slice">
                                 <div className="main">
                                     <Image
@@ -67,15 +67,15 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
                                 </div>
                                 <div className="slider">
 
-                                    <Slider infinite={false} speed={500} slidesToShow={3} slidesToScroll={3}>
+                                    <Slider infinite={false} speed={500} slidesToShow={3.5} slidesToScroll={3}>
                                         <div className="slide">
                                             <div onClick={() => setMainImage(pageData.thumbnail)} className="img">
                                                 <img src={pageData.thumbnail} className="cover" alt="" />
                                             </div>
                                         </div>
                                         {
-                                            pageData.images?.map((o, index) => <div className="slide">
-                                                <div onClick={() => setMainImage(o)} key={o + index} className="img">
+                                            pageData.images?.map((o, index) => <div key={o + index} className="slide">
+                                                <div onClick={() => setMainImage(o)} className="img">
                                                     <img className="cover" src={o} alt="" />
                                                 </div>
                                             </div>)
@@ -84,7 +84,7 @@ const ProductDetail: FC<ProductDetail> = ({ pageData }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-6 md-col-6 sm-col-12">
+                        <div className="col-8 md-col-6 sm-col-12">
                             <div className="detail">
                                 <h1 className="name">{pageData.name}</h1>
                                 <div className="description">
