@@ -202,14 +202,11 @@ $flex-preflix : ('' : false ,'lg-' : $lg, 'md-' : $md , 'sm-' : $sm , 'xs-' : $x
         }
     }
     
-
     display: flex;
     flex-flow: row wrap;
     column-gap: var(--gap-col);
     row-gap: var(--gap-row);
     margin-right: calc(var(--gap-col) * -1);
-
-    
 
     &.center {
         justify-content: center;
@@ -220,6 +217,7 @@ $flex-preflix : ('' : false ,'lg-' : $lg, 'md-' : $md , 'sm-' : $sm , 'xs-' : $x
             min-height: 100%
         }
     }
+    
     @each $preflix , $size in $flex-preflix {
         @for $i from 1 through 12 {
             @include calcWidth($i,$preflix ,$size);
